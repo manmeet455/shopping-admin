@@ -13,6 +13,11 @@
     "email": "manmeet.singh@digimantra.com"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-brands-svg-icons": "^6.5.1",
+    "@fortawesome/free-regular-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/react-fontawesome": "^0.2.0",
     "apexcharts": "^3.41.0",
     "headlessui": "^0.0.0",
     "jsvectormap": "^1.5.3",
