@@ -1,16 +1,13 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
+import type { AppDispatch, RootState } from '../../store/index.ts';
+import { useSelector, useDispatch } from 'react-redux';
+import { authSlice, loginReducer, signin } from '../../features/authSlice.ts';
+
 
 import { Button, Checkbox, Form, Input } from 'antd';
-
-const onFinish = (values: any) => {
-  console.log('Success:', values.username, values.password);
-};
-
-const onFinishFailed = (errorInfo: any) => {
-  console.log('Failed:', errorInfo);
-};
+import { useEffect } from 'react';
 
 type FieldType = {
   username?: string;
@@ -20,6 +17,26 @@ type FieldType = {
 
 
 const SignIn = () => {
+
+  // const count = useSelector((state: RootState) => state.counter.value)
+  const dispatch = useDispatch<AppDispatch>();
+  const { loading, error, token, success } = useSelector((root: RootState) => root.auth);
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (!loading && success && token) {
+      navigate('/');
+    }
+  }, [loading, success]);
+
+  const onFinish = (values: any) => {
+    console.log('Success:', values.username, values.password);
+    dispatch(signin({ email: values.username, password: values.password }));
+  };
+
+  const onFinishFailed = (errorInfo: any) => {
+    console.log('Failed:', errorInfo);
+  };
+
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -35,7 +52,6 @@ const SignIn = () => {
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit
                 suspendisse.
               </p>
-
             </div>
           </div>
 
@@ -51,7 +67,7 @@ const SignIn = () => {
                 labelCol={{ span: 8 }}
                 wrapperCol={{ span: 16 }}
                 style={{ maxWidth: 600 }}
-                initialValues={{ username: "", password: "", remember: true}}
+                initialValues={{ username: "", password: "", remember: true }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="on"
@@ -103,7 +119,7 @@ const SignIn = () => {
                         <path
                           d="M10.2055 19.9999C12.9605 19.9999 15.2734 19.111 16.9629 17.5777L13.7429 15.1331C12.8813 15.7221 11.7248 16.1333 10.2055 16.1333C8.91513 16.1259 7.65991 15.7205 6.61791 14.9745C5.57592 14.2286 4.80007 13.1801 4.40044 11.9777L4.28085 11.9877L1.13101 14.3765L1.08984 14.4887C1.93817 16.1456 3.24007 17.5386 4.84997 18.5118C6.45987 19.4851 8.31429 20.0004 10.2059 19.9999"
                           fill="#34A853"
-                        />
+                        />error
                         <path
                           d="M4.39899 11.9777C4.1758 11.3411 4.06063 10.673 4.05807 9.99996C4.06218 9.32799 4.1731 8.66075 4.38684 8.02225L4.38115 7.88968L1.19269 5.4624L1.0884 5.51101C0.372763 6.90343 0 8.4408 0 9.99987C0 11.5589 0.372763 13.0963 1.0884 14.4887L4.39899 11.9777Z"
                           fill="#FBBC05"
@@ -122,6 +138,7 @@ const SignIn = () => {
                   </span>
                   Sign in with Google
                 </button>
+                {error && <>Somethig went wrong.</>}
 
                 <div className="mt-6 text-center">
                   <p>
