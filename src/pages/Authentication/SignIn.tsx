@@ -3,7 +3,7 @@ import LogoDark from '../../images/logo/logo-dark.svg';
 import Logo from '../../images/logo/logo.svg';
 import type { AppDispatch, RootState } from '../../store/index.ts';
 import { useSelector, useDispatch } from 'react-redux';
-import { authSlice, loginReducer, signin } from '../../features/authSlice.ts';
+import { authSlice, signin } from '../../features/authSlice.ts';
 
 
 import { Button, Checkbox, Form, Input } from 'antd';
@@ -18,15 +18,15 @@ type FieldType = {
 
 const SignIn = () => {
 
-  // const count = useSelector((state: RootState) => state.counter.value)
   const dispatch = useDispatch<AppDispatch>();
   const { loading, error, token, success } = useSelector((root: RootState) => root.auth);
   const navigate = useNavigate();
   useEffect(() => {
+    console.log("bnnfgndbfd", loading, success, token)
     if (!loading && success && token) {
       navigate('/');
     }
-  }, [loading, success]);
+  }, [loading, success, token]);
 
   const onFinish = (values: any) => {
     console.log('Success:', values.username, values.password);
@@ -138,7 +138,7 @@ const SignIn = () => {
                   </span>
                   Sign in with Google
                 </button>
-                {error && <>Somethig went wrong.</>}
+                {error && <p>Somethig went wrong.</p>}
 
                 <div className="mt-6 text-center">
                   <p>

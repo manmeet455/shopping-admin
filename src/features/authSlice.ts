@@ -44,9 +44,11 @@ export const authSlice = createSlice({
             .addCase(signin.fulfilled, (state, action) => {
                 state.token = action.payload?.token;
                 state.success = action.payload?.success;
+                state.loading = false;
             })
             .addCase(signin.rejected, (state) => {
                 state.error = true;
+                state.loading = false;
             });
     },
 });
