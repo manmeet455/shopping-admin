@@ -5,7 +5,7 @@ import axios from "axios";
 export const signin = createAsyncThunk(
     "user/login",
     async (payload: { email: string, password: string }) => {
-        const response = await axios.post('https://suscel-backend.foobar.in/api/admin/login', {
+        const response = await axios.post(`${process.env.VITE_APP_API_URL}/api/admin/login`, {
             email: payload.email, password: payload.password
         });
         return response?.data || {}; signin
