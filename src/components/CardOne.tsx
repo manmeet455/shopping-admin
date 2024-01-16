@@ -1,14 +1,28 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons';
+import { faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons';
 import { NavLink } from 'react-router-dom';
 
+interface ICardProps {
+  title: string,
+  count: number,
+  icon: any,
+  iconUser: any,
+  handler: () => void,
+}
 
-const CardOne = () => {
+const CardOne = (props: ICardProps) => {
+  const {
+    title,
+    count,
+    icon,
+    iconUser,
+    handler
+  } = props;
+
   return (
     <div className="rounded-sm border border-stroke bg-white py-6 px-7.5 shadow-default dark:border-strokedark dark:bg-boxdark">
       <div className="flex h-11.5 w-11.5 items-center justify-center rounded-full bg-meta-2 dark:bg-meta-4">
-
-      <FontAwesomeIcon color='#3c4fe0' icon={faCartShopping}  />
+        <FontAwesomeIcon color='#3c4fe0' icon={faCartShopping} />
       </div>
 
       <div className="mt-4 flex items-end justify-between">

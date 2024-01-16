@@ -1,10 +1,8 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query'
-
+import { createApi } from '@reduxjs/toolkit/query/react';
+import baseQueryInstance from './baseQuery';
 const orderQueries = createApi({
-    reducerPath: 'orders',
-    baseQuery: fetchBaseQuery({
-        baseUrl: process.env.VITE_APP_API_URL,
-    }),
+    reducerPath: 'order',
+    baseQuery: baseQueryInstance,
     endpoints: (build) => ({
         getOrders: build.query({
             query: () => ({ url: `orders?page=1&limit=10` }),
@@ -23,7 +21,7 @@ const orderQueries = createApi({
         // }),
     }),
 })
-
+ 
 export const {
     useGetOrdersQuery,
     useGetOrderByIdQuery,

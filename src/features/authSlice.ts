@@ -5,10 +5,10 @@ import axios from "axios";
 export const signin = createAsyncThunk(
     "user/login",
     async (payload: { email: string, password: string }) => {
-        const response = await axios.post(`${process.env.VITE_APP_API_URL}/api/admin/login`, {
+        const response = await axios.post(`${process.env.VITE_APP_API_URL}login`, {
             email: payload.email, password: payload.password
         });
-        return response?.data || {}; 
+        return response?.data || {};
     }
 );
 
@@ -31,6 +31,7 @@ export const authSlice = createSlice({
     //sync  
     reducers: {
         reset() {
+            localStorage.removeItem("accessToken")
             return { ...initialState }
         },
 
@@ -42,6 +43,7 @@ export const authSlice = createSlice({
                 state.loading = true;
             })
             .addCase(signin.fulfilled, (state, action) => {
+                localStorage.setItem("accessToken", action.payload?.token)
                 state.token = action.payload?.token;
                 state.success = action.payload?.success;
                 state.loading = false;
@@ -55,3 +57,32 @@ export const authSlice = createSlice({
 console.log(authSlice.actions)
 export const { reset } = authSlice.actions;
 export default authSlice.reducer;
+
+// import { createApi } from '@reduxjs/toolkit/query/react';
+// import baseQueryInstance from '../queries/baseQuery';
+// const orderQueries = createApi({
+//     reducerPath: 'order',
+//     baseQuery: baseQueryInstance,
+//     endpoints: (build) => ({
+//         getOrders: build.query({
+//             query: () => ({ url: `orders?page=1&limit=10` }),
+//         }),
+//         getOrderById: build.query({
+//             query: (id) => ({ url: `orders?page=1&limit=10/${id}` }),
+//         }),
+//         // updateOrder: build.mutation({
+//         //     query: (id, {data}) => ({ url: `post/${id}` }),
+//         // }),
+//         // deleteOrders: build.query({
+//         //     query: (id) => ({ url: `post/${id}` }),
+//         // }),
+//         // createOrders: build.query({
+//         //     query: (id) => ({ url: `post/${id}` }),
+//         // }),
+//     }),
+// })
+ 
+// export const {
+//     useGetOrdersQuery,
+//     useGetOrderByIdQuery,
+// } = orderQueries;

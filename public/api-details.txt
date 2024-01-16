@@ -51,4 +51,8 @@ https://suscel-backend.foobar.in/api/admin/users?page=1&limit=10
 }
 https://suscel-backend.foobar.in/api/admin/orders?page=1&limit=10
 https://suscel-backend.foobar.in/api/admin/bundles?page=1&limit=10
+{
+    "success": true,
+    "code": 200,
+}
 https://suscel-backend.foobar.in/api/admin/category/categories?page=1&limit=10

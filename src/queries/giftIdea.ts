@@ -1,14 +1,15 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import baseQueryInstance from './baseQuery';
-const userQueries = createApi({
-    reducerPath: 'users',
+
+export const giftApis = createApi({
+    reducerPath: 'orders',
     baseQuery: baseQueryInstance,
     endpoints: (build) => ({
-        getUsers: build.query({
-            query: () => ({ url: `users?page=1&limit=10` }),
+        getOrders: build.query({
+            query: () => ({ url: `orders?page=1&limit=10` }),
         }),
-        getUserById: build.query({
-            query: (id) => ({ url: `users?page=1&limit=10/${id}` }),
+        getOrderById: build.query({
+            query: (id) => ({ url: `orders?page=1&limit=10/${id}` }),
         }),
         // updateOrder: build.mutation({
         //     query: (id, {data}) => ({ url: `post/${id}` }),
@@ -23,6 +24,6 @@ const userQueries = createApi({
 })
 
 export const {
-    useGetUsersQuery,
-    useGetUserByIdQuery,
-} = userQueries;
+    useGetOrdersQuery,
+    useGetOrderByIdQuery,
+} = giftApis;
