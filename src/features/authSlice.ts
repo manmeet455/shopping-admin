@@ -8,7 +8,7 @@ export const signin = createAsyncThunk(
         const response = await axios.post(`${process.env.VITE_APP_API_URL}/api/admin/login`, {
             email: payload.email, password: payload.password
         });
-        return response?.data || {}; signin
+        return response?.data || {}; 
     }
 );
 
