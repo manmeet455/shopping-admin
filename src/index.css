@@ -145,6 +145,12 @@ span.flatpickr-weekday,
 .taskCheckbox:checked ~ .box {
   @apply bg-primary border-primary dark:border-primary;
 }
+.btn .btn-secondary{
+ @apply bg-primary hover:bg-blue-700 text-white font-bold py-2 px-4 rounded
+}
+.btn .btn-primary{
+  @apply bg-transparent hover:bg-white text-white font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded
+}
 
 .custom-input-date::-webkit-calendar-picker-indicator {
   background-position: center;

@@ -20,6 +20,8 @@ module.exports = {
       bodydark2: '#8A99AF',
       primary: '#3C50E0',
       secondary: '#80CAEE',
+      "blue-500": "#0284c7",
+      "blue-700": "#0284c7",
       stroke: '#E2E8F0',
       gray: '#EFF4FB',
       graydark: '#333A48',

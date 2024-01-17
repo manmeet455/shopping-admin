@@ -1,40 +1,56 @@
-import { useNavigate } from 'react-router-dom';
-import CardOne from '../../components/CardOne.tsx';
-import { useGetDashboardDataQuery } from '../../queries/dashboard.ts';
+import { useNavigate } from "react-router-dom";
+import Card from "../../customComponents/card.tsx";
+import { useGetDashboardDataQuery } from "../../queries/dashboard.ts";
+import { faUser, faCartShopping, faUsers } from '@fortawesome/free-solid-svg-icons';
 
 
 export const TopCards = () => {
-
     const navigate = useNavigate();
-
-    const handler = (el: string) => {
-        navigate('/')
-    }
-
-    const getIcon = (el: string) => {
-        navigate('/')
-    }
-
-
-
+    const handler = (key: string) => {
+        let url = "/"
+        if (key?.toLowerCase().includes('order'))
+            url = "/orders?p=1"
+        console.log(key)
+        if (key?.toLowerCase().includes('user'))
+            url = "/users?p=1"
+        console.log("hiii budyyyy", url)
+        navigate(url);
+    };
+    const getIcon = (key: string) => {
+        if (key?.toLowerCase().includes('order'))
+            return faCartShopping
+        console.log(key)
+        if (key?.toLowerCase().includes('totaluser'))
+            return faUser;
+        if (key?.toLowerCase().includes('newuser'))
+            return faUsers;
+    };
     const { data, isLoading } = useGetDashboardDataQuery(null);
-    console.log( 'lllllllllllllllllll', data?.data);
+    console.log("lllllllllllllllllll", data?.data);
 
     if (isLoading) {
-        return <>loading</>
+        return <>loading</>;
     }
-    console.log('ddd', data)
-    return (
-        <>{data?.data && Object.keys(data.data)?.map((el, i) => {
-            return <CardOne
-                key={i}
-                title={el}
-                icon={() => getIcon(el)}
-                iconUser={() => getIcon(el)}
-                count={data[i]}
-                handler={() => handler(el)}
-            />
-        })}
-        </>
+    console.log('data', data,
+        'object', Object.entries(data.data)
     )
-}
+
+    return (
+        <>
+            {data?.data &&
+                Object.entries(data.data)?.map((el, i) => {
+                    // if(value?.length) {
+                    return (
+                        <Card
+                            key={i}
+                            title={el[0]}
+                            icon={getIcon(el[0])}
+                            count={+el?.[1] ?? 0}
+                            handler={() => handler(el[0])}
+                        />
+                    );
+                    // }
+                })}
+        </>
+    );
+};

@@ -54,5 +54,6 @@ https://suscel-backend.foobar.in/api/admin/bundles?page=1&limit=10
 {
     "success": true,
     "code": 200,
+    
 }
 https://suscel-backend.foobar.in/api/admin/category/categories?page=1&limit=10
