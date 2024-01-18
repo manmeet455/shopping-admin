@@ -22,14 +22,12 @@ const SignIn = () => {
   const { loading, error, token, success } = useSelector((root: RootState) => root.auth);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("bnnfgndbfd", loading, success, token)
     if (!loading && success && token) {
       navigate('/');
     }
   }, [loading, success, token]);
 
   const onFinish = (values: any) => {
-    console.log('Success:', values.username, values.password);
     dispatch(signin({ email: values.username, password: values.password }));
   };
 

@@ -54,7 +54,6 @@ export const authSlice = createSlice({
             });
     },
 });
-console.log(authSlice.actions)
 export const { reset } = authSlice.actions;
 export default authSlice.reducer;
 

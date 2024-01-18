@@ -4,6 +4,9 @@ import { setupListeners } from '@reduxjs/toolkit/query/react';
 import { dashboardApi } from '../queries/dashboard';
 import { bundlesApi } from '../queries/giftBundles';
 import { giftIdeasApis } from '../queries/giftIdea';
+import { orderApis } from '../queries/order';
+import { userApis } from '../queries/user';
+
 
 
 export const store = configureStore({
@@ -13,12 +16,16 @@ export const store = configureStore({
     [dashboardApi.reducerPath]: dashboardApi.reducer,
     [bundlesApi.reducerPath]: bundlesApi.reducer,
     [giftIdeasApis.reducerPath]: giftIdeasApis.reducer,
+    [orderApis.reducerPath]: orderApis.reducer,
+    [userApis.reducerPath]: userApis.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
       dashboardApi.middleware,
       bundlesApi.middleware,
       giftIdeasApis.middleware,
+      orderApis.middleware,
+      userApis.middleware,
     ),
 })
 setupListeners(store.dispatch);

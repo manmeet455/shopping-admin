@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import baseQueryInstance from './baseQuery';
-const orderQueries = createApi({
+
+export const orderApis = createApi({
     reducerPath: 'order',
     baseQuery: baseQueryInstance,
     endpoints: (build) => ({
@@ -25,4 +26,4 @@ const orderQueries = createApi({
 export const {
     useGetOrdersQuery,
     useGetOrderByIdQuery,
-} = orderQueries;
+} = orderApis;

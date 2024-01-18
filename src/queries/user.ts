@@ -1,6 +1,7 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import baseQueryInstance from './baseQuery';
-const userQueries = createApi({
+
+export const userApis = createApi({
     reducerPath: 'users',
     baseQuery: baseQueryInstance,
     endpoints: (build) => ({
@@ -25,4 +26,4 @@ const userQueries = createApi({
 export const {
     useGetUsersQuery,
     useGetUserByIdQuery,
-} = userQueries;
+} = userApis;

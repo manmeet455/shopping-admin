@@ -8,15 +8,6 @@ export const giftIdeasApis = createApi({
         getGiftIdeas: build.query({
             query: () => ({ url: `gift-ideas?page=1&limit=10` }),
         })
-        // updateOrder: build.mutation({
-        //     query: (id, {data}) => ({ url: `post/${id}` }),
-        // }),
-        // deleteOrders: build.query({
-        //     query: (id) => ({ url: `post/${id}` }),
-        // }),
-        // createOrders: build.query({
-        //     query: (id) => ({ url: `post/${id}` }),
-        // }),
     }),
 })
 
