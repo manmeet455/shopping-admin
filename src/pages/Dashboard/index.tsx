@@ -1,4 +1,3 @@
-// import { LatestStats } from './latestStats.tsx';
 import { LatestStats } from './latestStats.tsx';
 import { TopCards } from './topCards.tsx';
 

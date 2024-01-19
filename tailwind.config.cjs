@@ -22,6 +22,7 @@ module.exports = {
       secondary: '#80CAEE',
       "blue-500": "#0284c7",
       "blue-700": "#0284c7",
+      "blue-800": "#3c50e0",
       stroke: '#E2E8F0',
       gray: '#EFF4FB',
       graydark: '#333A48',

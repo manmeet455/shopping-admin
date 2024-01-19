@@ -3,6 +3,7 @@ import { useGetGiftBundlesQuery } from '../../queries/giftBundles.ts';
 import { useGetOrdersQuery } from '../../queries/order.ts';
 import { useGetUsersQuery } from '../../queries/user.ts';
 import { useGetGiftIdeasQuery } from '../../queries/giftIdea.ts';
+import { useNavigate } from 'react-router-dom';
 
 export const LatestStats = () => {
 
@@ -11,6 +12,24 @@ export const LatestStats = () => {
     const { data: usersData, isLoading: loadingUser, error: errorUser } = useGetUsersQuery(null);
     const {data: giftIdeasData, isLoading: lodingIdeas, error: errorIdeas} =  useGetGiftIdeasQuery(null);
     console.log(ordersData);
+
+
+    // Handler Function
+
+    const navigate = useNavigate();
+    const handler = (key: string) => {
+        let url = "/"
+        if (key?.toLowerCase().includes('order'))
+            url = "/orders?p=1"
+        if (key?.toLowerCase().includes('user'))
+            url = "/users?p=1"
+        if (key?.toLowerCase().includes('bundles'))
+            url = "/bundles?p=1"
+        if (key?.toLowerCase().includes('gift-ideas'))
+            url = "/gift-ideas?p=1"
+        navigate(url);
+    };
+    
 
     // OrdersMap
     const orders = ordersData?.data?.orders?.map((el: any) => {
@@ -43,49 +62,49 @@ export const LatestStats = () => {
         }
     })
 
+    // Bundles Map
+    const bundles = giftBundlesData?.data?.bundles?.map((el: any) => {
+        return{
+            name: el?.name,
+            image: el?.image,
+            description: el?.description,
+        }
+    })
+
     return (
-        // <div className='grid grid-cols-1 gap-4 md:grid-cols-2 md:gap-2 xl:grid-cols-2 2xl:gap-7.5 py-8'>
+    
         <div>
             {/* Gift Bundles */}
-
-
-            {/* <div className='flex'> */}
                 <Lists
                     title='Gift Bundles'
-                    handler={() => { }}
-                    data={giftBundlesData?.data?.bundles}
+                    handler={() => handler('bundles')}
+                    data={bundles}
                     isLoading={loadingBundle}
                     error={errorBundle}
                 />
-            {/* </div> */}
 
-
-            {/* <div className='flex'> */}
+                {/* Orders */}
                 <Lists
                     title='Orders'
-                    handler={() => { }}
+                    handler={() => handler('orders')}
                     data={orders}
                     isLoading={loadingOrder}
                     error={errorOrder}
                 />
-            {/* </div> */}
 
-
-            {/* <div className='flex'> */}
-
+                {/* Users */}
                 <Lists
                     title='Users'
-                    handler={() => { }}
+                    handler={() => handler('users')}
                     data={users}
                     isLoading={loadingUser}
                     error={errorUser}
                 />
-            {/* </div> */}
 
-
+                {/* GiftIdeas */}
             <Lists 
             title='Gift Ideas'
-            handler={() => { }}
+            handler={() => handler('gift-ideas')}
             data={giftIdeas}
             isLoading={lodingIdeas}
             error={errorIdeas}

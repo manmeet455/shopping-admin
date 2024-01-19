@@ -4,6 +4,7 @@ import brand from '../images/logo/brand.svg';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faGift, faBagShopping, faCartShopping, faCreditCard, faHeart } from '@fortawesome/free-solid-svg-icons';
+import { GiftIdeas } from '../pages/GiftIdeas';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -219,6 +220,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       >
                         
                         <FontAwesomeIcon icon={faGift}/>
+                        <GiftIdeas />
                         Gift Ideas
                       </NavLink>
                     </React.Fragment>

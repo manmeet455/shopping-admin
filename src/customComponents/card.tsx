@@ -1,5 +1,5 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button } from "antd";
+// import { Button } from "antd";
  
 interface ICardProps {
   title: string;
@@ -19,7 +19,7 @@ const Card = (props: ICardProps) => {
         </div>
  
         <span className="flex items-center gap-1 text-sm font-medium cursor-pointer">
-          <a className=" btn btn-primary text-blue-600" onClick={handler}>
+          <a className=" btn btn-primary text-blue-800" onClick={handler}>
             View All
           </a>
         </span>
