@@ -12,7 +12,6 @@ interface IProps {
 
 export const Lists = (props: IProps) => {
     const { title, handler, data, isLoading } = props;
-    console.log(data)
 
     const handlePrice = (price: number, title: string) => {
         if (title === "Orders") {
@@ -25,7 +24,7 @@ export const Lists = (props: IProps) => {
             return `$${id}`;
         }
     };
-    
+
 
     if (isLoading) return <>Loading....</>
     return (
@@ -72,7 +71,7 @@ export const Lists = (props: IProps) => {
                         {data?.length ?
                             data?.map((el: any) => {
                                 return (
-                                    <li className="py-3 sm:py-4">
+                                    <li className="py-3 sm:py-4" key={el?.name}>
                                         <div className="flex items-center">
                                             <div className="flex-shrink-0">
                                                 <img className="w-8 h-8 rounded-full" src={el?.image?.trim()} alt="image" />

@@ -1,30 +1,17 @@
+import CardWithButtons from "../../customComponents/cardWithButtons";
 import { useGetGiftIdeasQuery } from "../../queries/giftIdea";
-import GiftIdeasCard from "../../customComponents/giftIdeasCard";
 
-export const GiftIdeas = () => {
+const GiftIdeas = () => {
 
-    const { data: giftIdeasData, isLoading: lodingIdeas, error: errorIdeas } = useGetGiftIdeasQuery(null);
-
-    console.log(giftIdeasData,"helllo ji");
-    
-
-    const giftIdeas = giftIdeasData?.data?.categories?.map((el: any) => {
-        return {
-            _id: el?._id,
-            name: el?.name,
-            image: el?.image,
-        }
-    })
+    const { data: giftIdeasData, isLoading, error } = useGetGiftIdeasQuery(null);
+console.log(giftIdeasData,"ooooo")
     return (
         <>
-            <GiftIdeasCard
-                title='Gift Ideas'
-                // handler={""}
-                data={giftIdeas}
-                isLoading={lodingIdeas}
-                error={errorIdeas}
-            />
+            {giftIdeasData?.data?.categories && giftIdeasData?.data?.categories?.map((data: any) => {
+                return <CardWithButtons data={data} isLoading={isLoading} error={error} />
+            })}
         </>
     );
+};
 
-}
+export default GiftIdeas;

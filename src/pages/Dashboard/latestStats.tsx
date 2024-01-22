@@ -10,8 +10,7 @@ export const LatestStats = () => {
     const { data: giftBundlesData, isLoading: loadingBundle, error: errorBundle } = useGetGiftBundlesQuery(null);
     const { data: ordersData, isLoading: loadingOrder, error: errorOrder } = useGetOrdersQuery(null);
     const { data: usersData, isLoading: loadingUser, error: errorUser } = useGetUsersQuery(null);
-    const {data: giftIdeasData, isLoading: lodingIdeas, error: errorIdeas} =  useGetGiftIdeasQuery(null);
-    console.log(ordersData);
+    const { data: giftIdeasData, isLoading: lodingIdeas, error: errorIdeas } = useGetGiftIdeasQuery(null);
 
 
     // Handler Function
@@ -29,7 +28,7 @@ export const LatestStats = () => {
             url = "/gift-ideas?p=1"
         navigate(url);
     };
-    
+
 
     // OrdersMap
     const orders = ordersData?.data?.orders?.map((el: any) => {
@@ -55,16 +54,17 @@ export const LatestStats = () => {
 
     // GiftIdeas
     const giftIdeas = giftIdeasData?.data?.categories?.map((el: any) => {
-        return{
+        return {
             _id: el?._id,
             name: el?.name,
             image: el?.image,
+            description: el?.description
         }
     })
 
     // Bundles Map
     const bundles = giftBundlesData?.data?.bundles?.map((el: any) => {
-        return{
+        return {
             name: el?.name,
             image: el?.image,
             description: el?.description,
@@ -72,43 +72,43 @@ export const LatestStats = () => {
     })
 
     return (
-    
+
         <div>
             {/* Gift Bundles */}
-                <Lists
-                    title='Gift Bundles'
-                    handler={() => handler('bundles')}
-                    data={bundles}
-                    isLoading={loadingBundle}
-                    error={errorBundle}
-                />
+            <Lists
+                title='Gift Bundles'
+                handler={() => handler('bundles')}
+                data={bundles}
+                isLoading={loadingBundle}
+                error={errorBundle}
+            />
 
-                {/* Orders */}
-                <Lists
-                    title='Orders'
-                    handler={() => handler('orders')}
-                    data={orders}
-                    isLoading={loadingOrder}
-                    error={errorOrder}
-                />
+            {/* Orders */}
+            <Lists
+                title='Orders'
+                handler={() => handler('orders')}
+                data={orders}
+                isLoading={loadingOrder}
+                error={errorOrder}
+            />
 
-                {/* Users */}
-                <Lists
-                    title='Users'
-                    handler={() => handler('users')}
-                    data={users}
-                    isLoading={loadingUser}
-                    error={errorUser}
-                />
+            {/* Users */}
+            <Lists
+                title='Users'
+                handler={() => handler('users')}
+                data={users}
+                isLoading={loadingUser}
+                error={errorUser}
+            />
 
-                {/* GiftIdeas */}
-            <Lists 
-            title='Gift Ideas'
-            handler={() => handler('gift-ideas')}
-            data={giftIdeas}
-            isLoading={lodingIdeas}
-            error={errorIdeas}
-        />
+            {/* GiftIdeas */}
+            <Lists
+                title='Gift Ideas'
+                handler={() => handler('gift-ideas')}
+                data={giftIdeas}
+                isLoading={lodingIdeas}
+                error={errorIdeas}
+            />
         </div>
     )
 }

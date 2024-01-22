@@ -4,7 +4,6 @@ import brand from '../images/logo/brand.svg';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUsers, faGift, faBagShopping, faCartShopping, faCreditCard, faHeart } from '@fortawesome/free-solid-svg-icons';
-import { GiftIdeas } from '../pages/GiftIdeas';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -116,7 +115,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       <NavLink
                         to="#"
                         className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/' ||
-                            pathname.includes('dashboard')) &&
+                          pathname.includes('dashboard')) &&
                           'bg-graydark dark:bg-meta-4'
                           }`}
                         onClick={(e) => {
@@ -130,11 +129,10 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                         <li>
                           <NavLink
                             to="/"
-                            className={`group relative flex items-center gap-2.5 rounded-sm font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                              (pathname === '/' ||
+                            className={`group relative flex items-center gap-2.5 rounded-sm font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/' ||
                                 pathname.includes('dashboard')) &&
                               'bg-graydark dark:bg-meta-4'
-                            }`}
+                              }`}
                           >
                             <svg
                               className="fill-current"
@@ -190,12 +188,12 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Gift Bundles --> */}
               <li>
                 <NavLink
-                  to="/profile"
+                  to="/gift-bundles"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${pathname.includes('profile') && 'bg-graydark dark:bg-meta-4'
                     }`}
                 >
-                  
-                  <FontAwesomeIcon icon={faGift}/>
+
+                  <FontAwesomeIcon icon={faGift} />
                   Gift Bundles
                 </NavLink>
               </li>
@@ -204,24 +202,23 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               {/* <!-- Menu Item Forms --> */}
               <SidebarLinkGroup
                 activeCondition={
-                  pathname === '/forms' || pathname.includes('forms')
+                  pathname === '/customComponents' || pathname.includes('customComponents')
                 }
               >
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
                       <NavLink
-                        to="/forms/form-elements"
-                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${
-                          (pathname === '/forms' ||
-                            pathname.includes('forms')) &&
+                        to="/gift-ideas"
+                        className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/customComponents' ||
+                            pathname.includes('customComponents')) &&
                           'bg-graydark dark:bg-meta-4'
-                        }`}
+                          }`}
                       >
-                        
-                        <FontAwesomeIcon icon={faGift}/>
-                        <GiftIdeas />
+
+                        <FontAwesomeIcon icon={faGift} />
                         Gift Ideas
+                        {/* <GiftIdeas /> */}
                       </NavLink>
                     </React.Fragment>
                   );
@@ -268,19 +265,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </li>
               {/* <!-- Menu Item Refund Payments --> */}
 
-                {/* <!-- Menu Item Wishlists --> */}
-                <li>
+              {/* <!-- Menu Item Wishlists --> */}
+              <li>
                 <NavLink
                   to="/ui/alerts"
                   className={`group relative flex items-center gap-2.5 rounded-sm py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4 ${(pathname === '/ui' || pathname.includes('ui')) &&
-                          'bg-graydark dark:bg-meta-4'
-                          }`}
+                    'bg-graydark dark:bg-meta-4'
+                    }`}
                 >
                   <FontAwesomeIcon icon={faHeart} />
                   Wishlists
                 </NavLink>
               </li>
-               {/* <!-- Menu Item Wishlists --> */}
+              {/* <!-- Menu Item Wishlists --> */}
             </ul>
           </div>
 
