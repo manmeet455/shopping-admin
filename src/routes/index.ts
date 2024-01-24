@@ -1,5 +1,7 @@
 import { lazy } from 'react';
-
+// import { ViewCategories } from '../customComponents/ViewCategories';
+const details = lazy(() => import('../pages/GiftBundles/details'));
+const editDetails = lazy(() => import('../pages/GiftIdeas/editDetails'));
 const GiftIdeas = lazy(() => import('../pages/GiftIdeas'));
 const GiftBundles = lazy(() => import('../pages/GiftBundles'));
 
@@ -14,6 +16,16 @@ const coreRoutes = [
     title: 'Gift Bundles Card',
     component: GiftBundles
   },
+  {
+    path: '/details',
+    title: 'Gift Details',
+    component: details
+  },
+  {
+    path: '/editDetails',
+    title: 'editDetails',
+    component: editDetails
+  }
 ];
 
 const routes = [...coreRoutes];

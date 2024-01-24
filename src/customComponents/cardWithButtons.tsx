@@ -1,12 +1,16 @@
+// import { Button } from "antd";
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+// import {faEye, faEdit} from '@fortawesome/free-solid-svg-icons';
+
 interface IProps {
   data: any,
   isLoading: boolean,
   error: any,
+  actions: any[],
 }
 
 const CardWithButtons = (props: IProps) => {
-
-  const { error, data, isLoading } = props;
+  const { error, data, isLoading, actions } = props;
 
   if (isLoading) {
     return <></>
@@ -16,46 +20,29 @@ const CardWithButtons = (props: IProps) => {
     return <></>
   }
 
-
   return (
-
-    <div>
-          <div className="flex">
-            <div className="w-22 h-20 mr-7 ml-4 mt-5">
-              <img src={data?.image} alt="hi" />
-            </div>
-            <div className="mt-5">
-              <h4 className="font-bold text-black ">{data?.name}</h4>
-              <p><b className="mr-1">Description:</b> {data?.description}</p>
-              <div>
-                <p>
-                  <b className="mr-1">Items:</b>
-                  {data?.products?.length}
-                  {data?.price}
-                </p>
-              </div>
-            </div>
-            {/* <div>some icon</div> */}
-          </div>
+    <div className="flex items-center bg-white  gap-4 cursor-pointer ">
+      <div className="w-20 h-20 ">
+        <img src={data?.image} alt="image" />
+      </div>
+      <div className="mt-4 mb-4">
+        <h4 className="font-bold text-black ">{data?.name}</h4>
+        <p><b className="mr-1">Description:</b> {data?.description}</p>
+        <div>
+          <p>
+            <b className="mr-1">Items:</b>
+            {data?.products?.length}
+            {data?.price && <>${data?.price}</>}
+          </p>
+        </div>
+      </div>
+      <div className="grid grid-cols-3 gap-4">
+        {props.actions?.map((Component) => Component)}
+      </div>
     </div>
-
-
   );
 }
 
 export default CardWithButtons;
 
 
-
-{/* <div>
-<div>
-  <img src={data?.image} alt="hi" />
-</div>
-<div>
-  {data?.name}
-  {data?.description}
-  <span>{data?.products?.length}</span>
-  <span>{data?.price}</span>
-</div>
-<div></div>
-</div> */}

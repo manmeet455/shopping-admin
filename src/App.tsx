@@ -34,8 +34,6 @@ function App() {
       <Routes>
         <Route path="/auth/signin" element={<SignIn />} />
         <Route path="/auth/signup" element={<SignUp />} />
-        <Route path="/gift-ideas" element={<GiftIdeas />} />
-        <Route path="/gift-bundles" element={<GiftBundles />} />
         <Route element={<DefaultLayout />}>
           <Route index element={<Dashboard />} />
           {routes.map((routes, index) => {

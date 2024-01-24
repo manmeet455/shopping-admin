@@ -7,8 +7,21 @@ export const giftIdeasApis = createApi({
     refetchOnMountOrArgChange: 30,
     endpoints: (build) => ({
         getGiftIdeas: build.query({
-            query: () => ({ url: `https://suscel-backend.foobar.in/api/admin/category/categories?page=1&limit=10` }),
-        })
+            query: () => ({ url: `category/categories?page=1&limit=10` }),
+
+        }),
+        getGiftIdeasById: build.query({
+            query: (id) => ({ url: `category/${id}` }),
+        }),
+
+        getGiftIdeasProductsById: build.query({
+            query: (id) => ({ url: `category/${id}/products?page=1&limit=10/` }),
+        }),
+
+        getGiftIdeasEditProductsById: build.query({
+            query: (id) => ({ url: `products?page=1&limit=10&affiliate=true&giftIdeaId=${id}`}),
+        }),
+
         // updateOrder: build.mutation({
         //     query: (id, {data}) => ({ url: `post/${id}` }),
         // }),
@@ -22,5 +35,8 @@ export const giftIdeasApis = createApi({
 })
 
 export const {
-    useGetGiftIdeasQuery
+    useGetGiftIdeasQuery,
+    useGetGiftIdeasByIdQuery,
+    useGetGiftIdeasProductsByIdQuery,
+    useGetGiftIdeasEditProductsByIdQuery
 } = giftIdeasApis;
