@@ -1,6 +1,6 @@
 import { lazy } from 'react';
 // import { ViewCategories } from '../customComponents/ViewCategories';
-const details = lazy(() => import('../pages/GiftBundles/details'));
+const details = lazy(() => import('../pages/GiftIdeas/details'));
 const editDetails = lazy(() => import('../pages/GiftIdeas/editDetails'));
 const GiftIdeas = lazy(() => import('../pages/GiftIdeas'));
 const GiftBundles = lazy(() => import('../pages/GiftBundles'));
@@ -17,12 +17,12 @@ const coreRoutes = [
     component: GiftBundles
   },
   {
-    path: '/details',
+    path: '/details/:id',
     title: 'Gift Details',
     component: details
   },
   {
-    path: '/editDetails',
+    path: '/editDetails/:id',
     title: 'editDetails',
     component: editDetails
   }

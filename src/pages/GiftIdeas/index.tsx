@@ -7,12 +7,12 @@ import {faEye, faPen, faTrash} from '@fortawesome/free-solid-svg-icons';
 const GiftIdeas = () => {
 
     const navigate = useNavigate();
-    function viewHandler() {
-        navigate("/details");
+    function viewHandler(id:any) {
+        navigate(`/details/${id}`);
     }
 
-    function editHandler() {
-        navigate("/editDetails");
+    function editHandler(id: any) {
+        navigate(`/editDetails/${id}`);
     }
 
     function deleteHandler(){
@@ -20,6 +20,7 @@ const GiftIdeas = () => {
     }
 
     const { data: giftIdeasData, isLoading, error } = useGetGiftIdeasQuery(null);
+    console.log(giftIdeasData,"check ")
     return (
         <div className="grid grid-cols-2 gap-4">
             {giftIdeasData?.data?.categories && giftIdeasData?.data?.categories?.map((data: any) => {
@@ -28,8 +29,8 @@ const GiftIdeas = () => {
                 isLoading={isLoading}
                  error={error} 
                  actions={[
-                    <FontAwesomeIcon icon={faEye} onClick={viewHandler} />,
-                    <FontAwesomeIcon icon={faPen} onClick={editHandler} />,
+                    <FontAwesomeIcon icon={faEye} onClick={() => viewHandler(data._id)} />,
+                    <FontAwesomeIcon icon={faPen} onClick={() => editHandler(data._id)} />,
                     <FontAwesomeIcon color="red" icon={faTrash} onClick={deleteHandler} />,
 
                   ]} />

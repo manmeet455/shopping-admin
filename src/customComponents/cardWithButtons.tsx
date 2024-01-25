@@ -13,11 +13,11 @@ const CardWithButtons = (props: IProps) => {
   const { error, data, isLoading, actions } = props;
 
   if (isLoading) {
-    return <></>
+    return <>Loading</>
   }
 
   if (error) {
-    return <></>
+    return <>Error</>
   }
 
   return (
@@ -32,7 +32,9 @@ const CardWithButtons = (props: IProps) => {
           <p>
             <b className="mr-1">Items:</b>
             {data?.products?.length}
+            <b className="mr-1">Price:</b>
             {data?.price && <>${data?.price}</>}
+            {/* {data?.price} */}
           </p>
         </div>
       </div>

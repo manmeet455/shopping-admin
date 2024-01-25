@@ -1,8 +1,11 @@
 import { Button, Space, Table, Tag } from "antd";
+import { useParams } from "react-router-dom";
 import type { TableProps } from "antd";
+import { SearchOutlined } from '@ant-design/icons';
 
 import CardWithButtons from "../../customComponents/cardWithButtons";
 import { useGetGiftIdeasProductsByIdQuery, useGetGiftIdeasByIdQuery } from "../../queries/giftIdea";
+import { useNavigate } from "react-router-dom";
 
   interface DataType {
     key: string;
@@ -15,6 +18,9 @@ import { useGetGiftIdeasProductsByIdQuery, useGetGiftIdeasByIdQuery } from "../.
   }
    
   const details = () => {
+
+    const {id} = useParams();
+
     const columns: TableProps<DataType>["columns"] = [
       {
         title: "Image",
@@ -25,6 +31,7 @@ import { useGetGiftIdeasProductsByIdQuery, useGetGiftIdeasByIdQuery } from "../.
         title: "Name",
         dataIndex: "name",
         key: "name",
+        ellipsis: true, 
       },
       {
         title: "Brand",
@@ -35,6 +42,7 @@ import { useGetGiftIdeasProductsByIdQuery, useGetGiftIdeasByIdQuery } from "../.
         title: "Description",
         key: "description",
         dataIndex: "description",
+        ellipsis: true, 
       },
       {
         title: "Price",
@@ -45,6 +53,7 @@ import { useGetGiftIdeasProductsByIdQuery, useGetGiftIdeasByIdQuery } from "../.
         title: "ProductURL",
         key: "productUrl",
         dataIndex: "productUrl",
+        ellipsis: true, 
       },
       {
         title: "Action",
@@ -65,37 +74,55 @@ import { useGetGiftIdeasProductsByIdQuery, useGetGiftIdeasByIdQuery } from "../.
    
     
     const { data, isLoading, error } =  useGetGiftIdeasByIdQuery(
-      "65a61ea9322cef379d3bc092"
+      id
     );
     const {
       data: detailsProduct,
       isLoading: loadingProduct,
       error: errorProduct,
-    } = useGetGiftIdeasProductsByIdQuery("65a61ea9322cef379d3bc092");
+    } = useGetGiftIdeasProductsByIdQuery(id);
+
+    // const {
+    //   data: detailsProduct,
+    //   isLoading: loadingProduct,
+    //   error: errorProduct,
+    // } = useGetGiftIdeasProductsByIdQuery("65a61ea9322cef379d3bc092");
    
     const tableData: DataType[] = detailsProduct?.data?.products?.map((el: any, i: any) => ({
       key: i,
       image: <img src={el?.images[0]?.url} className="h-15" />,
-      name: <div className="text-ellipsis">{el?.name}</div>,
-      brand: <div className="text-ellipsis">{el?.brand}</div>,
-      description: <div className="text-ellipsis">{el?.description}</div>,
+      name: el?.name,
+      brand: el?.brand,
+      description: el?.description, 
       price: <>${el?.price}</>,
       productUrl: el?.productUrl,
     }));
-  
-    const button = [<Button>Edit</Button>]
-    return (
-      <div>
 
+    const navigate = useNavigate();
+
+    function handleEdit(){
+      navigate('/editDetails');
+    }
+  
+    const button = [<Button className="bg-blue-800 text-white" onClick={handleEdit}>Edit</Button>]
+
+    return (
+      <>
+
+
+      <div>
          <CardWithButtons
           data={data?.data}
           isLoading={isLoading}
           error={error}
           actions={button}
         />
+        </div>
 
+        <div className="mt-10">
         <Table scroll={{ x: 1300 }} columns={columns} dataSource={tableData} />
-      </div>
+        </div>
+      </>
     );
   };
 
