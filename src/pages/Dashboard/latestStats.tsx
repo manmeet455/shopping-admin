@@ -73,7 +73,7 @@ export const LatestStats = () => {
 
     return (
 
-        <div>
+        <div className='grid grid-cols-2 gap-4 '>
             {/* Gift Bundles */}
             <Lists
                 title='Gift Bundles'

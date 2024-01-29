@@ -1,7 +1,7 @@
-import { Button, Space, Table, Tag } from "antd";
+import { Button, Table} from "antd";
 import { useParams } from "react-router-dom";
 import type { TableProps } from "antd";
-import { SearchOutlined } from '@ant-design/icons';
+// import { SearchOutlined } from '@ant-design/icons';
 
 import CardWithButtons from "../../customComponents/cardWithButtons";
 import { useGetGiftIdeasProductsByIdQuery, useGetGiftIdeasByIdQuery } from "../../queries/giftIdea";
@@ -108,7 +108,6 @@ import { useNavigate } from "react-router-dom";
 
     return (
       <>
-
 
       <div>
          <CardWithButtons

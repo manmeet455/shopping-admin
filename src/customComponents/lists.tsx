@@ -59,7 +59,6 @@ export const Lists = (props: IProps) => {
                 }
             </ul> */}
 
-
             <div className="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-8 dark:bg-gray-800 dark:border-gray-700 mb-7">
                 <div className="flex items-center justify-between mb-4">
                     <h2 className="text-xl font-semibold leading-none text-black dark:text-white">{title}</h2>
