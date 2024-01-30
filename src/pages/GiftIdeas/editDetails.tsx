@@ -23,13 +23,21 @@ const editDetails = () => {
 
     const { id } = useParams();
     const { data, isLoading, error } = useGetGiftIdeasByIdQuery(id);
+    console.log(data, "bhandari");
 
-    //handle Back Button function
+    const selectedIds = data?.data?.products;
+    console.log(selectedIds, "Manmeet");
+
+    //handle Back Button function Start
     const navigate = useNavigate();
-    
-    function handleBackbutton(){
+
+    function handleBackbutton() {
         navigate("/gift-ideas")
     }
+    //handle Back Button function End
+
+    
+    // Edit GiftIdeas TableContent Start 
     const columns: TableColumnsType<DataType> = [
         {
             title: 'Image',
@@ -45,7 +53,7 @@ const editDetails = () => {
             dataIndex: 'brand',
         },
         {
-            title: 'Description',
+            title: 'Descrnameiption',
             dataIndex: 'description',
             ellipsis: true,
         },
@@ -63,7 +71,9 @@ const editDetails = () => {
         //     dataIndex: 'actions',
         // },
     ];
+    //  Edit GiftIdeas TableContent End
 
+    
     const { data: editProducts, isLoading: isLoadingEditProducts, error: errorEditProducts } = useGetGiftIdeasEditProductsByIdQuery(id);
 
     //useState for update api
@@ -71,15 +81,15 @@ const editDetails = () => {
         name: "",
         description: "",
         image: "",
-        products: [],
+        products: [""],
     });
 
     //Update api(Edit)
     const [updateCategory] = useUpdateGiftIdeasMutation();
 
     const tableData: DataType[] = editProducts?.data?.products?.map((el: any, i: any) => ({
-        key: i,
-        image: <img src={el?.images[0]?.url} className="h-15" />,
+        key: el?._id,
+        image: <img src={el?.images[0]?.url} className="w-8" />,
         name: <div className="text-ellipsis">{el?.name}</div>,
         brand: <div className="text-ellipsis">{el?.brand}</div>,
         description: <div className="text-ellipsis">{el?.description}</div>,
@@ -87,11 +97,12 @@ const editDetails = () => {
         productURL: el?.productUrl,
     }));
 
-   // const existingProductKeys = tableData.map((item) => item.key);
-    // rowSelection object indicates the need for row selection
+
+    //rowSelection object indicates the need for row selection
     const rowSelection = {
         onChange: (selectedRowKeys: React.Key[], selectedRows: DataType[]) => {
             console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
+            setCategoryData({ ...categoryData, products: selectedRows?.map((item) => item?.key) })
         },
         getCheckboxProps: (record: DataType) => ({
             disabled: record.name === 'Disabled User', // Column configuration not to be checked
@@ -103,19 +114,20 @@ const editDetails = () => {
 
     const updateCategoryHandler = () => {
         const updatedCategoryData = { ...categoryData, id }
+        console.log(updatedCategoryData, "check")
         updateCategory(updatedCategoryData).then((res: any) => alert(res?.data?.message));
     }
 
     useEffect(() => {
         if (id && data) {
-                setCategoryData({
-                    name: data?.data?.name,
-                    description: data?.data?.description,
-                    image: data?.data?.image,
-                    products: data?.data?.products
-                })
+            setCategoryData({
+                name: data?.data?.name,
+                description: data?.data?.description,
+                image: data?.data?.image,
+                products: data?.data?.products
+            })
         }
-    },[data])
+    }, [data])
 
     if (isLoading) {
         return <>Loading...</>
@@ -134,56 +146,79 @@ const editDetails = () => {
     return (
         <>
 
-            <Button className='bg-blue-800 text-white w-11 h-11 rounded-full ' onClick={handleBackbutton}><FontAwesomeIcon icon={faArrowLeftLong} /></Button>
+            {/* Edit GiftIdeas Header Section Start */}
+            <div>
+                <div className='mb-5'>
+                    <Button className='bg-blue-800 text-white w-11 h-11 rounded-full ' onClick={handleBackbutton}><FontAwesomeIcon icon={faArrowLeftLong} /></Button>
+                </div>
+                <div className='mb-4'>
+                    <h2 className='text-black font-semibold text-3xl'>Edit Gift Idea</h2>
+                </div>
+            </div>
+            {/* Edit GiftIdeas Header Section End */}
 
-            <Form
-                name="wrap"
-                labelCol={{ flex: '110px' }}
-                labelAlign="left"
-                labelWrap
-                wrapperCol={{ flex: 1 }}
-                colon={false}
-                style={{ maxWidth: 600 }}
-            >
-                <Form.Item
-                    label="Name"
-                    name="username"
-                    initialValue={data?.data?.name}
-                >
-                    <Input onChange={(event) => setCategoryData({ ...categoryData, name: event.target.value })} />
-                </Form.Item>
 
-                <Form.Item
-                    label="Description"
-                    name="password"
-                    initialValue={data?.data?.description}
-                >
-                    <Input onChange={(event) => setCategoryData({ ...categoryData, description: event.target.value })} />
-                </Form.Item>
+            {/* Edit GiftIdeas Form Start */}
+            <div className='rounded-lg border border-stroke bg-white '>
+                <div className='mt-6 mb-4 ml-6'>
+                    <Form
+                        name="wrap"
+                        labelCol={{ flex: '110px' }}
+                        labelAlign="left"
+                        labelWrap
+                        wrapperCol={{ flex: 1 }}
+                        colon={false}
+                        style={{ maxWidth: 600 }}
+                    >
+                        <Form.Item
+                            label={<h3 className='font-semibold text-xl text-black'>Name</h3>}
+                            name="username"
+                            initialValue={data?.data?.name}
+                        >
+                            <Input className="border-0 rounded-none border-b-2 !shadow-none hover:border-black" onChange={(event) => setCategoryData({ ...categoryData, name: event.target.value })} />
+                        </Form.Item>
 
-                <label>Image</label>
-                <Upload name="logo" action="/upload.do" listType="picture">
-                    <Button className="ml-17">Choose file</Button>
-                </Upload>
-                {<img src={data?.data?.image} className="h-45 mt-4 ml-27 border" />}
-            </Form>
+                        <Form.Item
+                            label={<h3 className='font-semibold text-xl text-black'>Description</h3>}
+                            name="password"
+                            initialValue={data?.data?.description}
+                        >
+                            <Input className="border-0 rounded-none border-b-2 !shadow-none hover:border-black" onChange={(event) => setCategoryData({ ...categoryData, description: event.target.value })} />
+                        </Form.Item>
 
-            <div className="mt-12">
+                        <label className='font-semibold text-xl text-black'>Image</label>
+                        <Upload name="logo" action="/upload.do" listType="picture">
+                            <Button className="ml-17">Choose file</Button>
+                        </Upload>
+                        {<img src={data?.data?.image} className="h-45 w-50 mt-3 ml-27 border" />}
+                    </Form>
+                </div>
+            </div>
+            {/* Edit GiftIdeas Form End */}
+
+
+            {/* Edt GiftIdeas Table Start */}
+            <div className='rounded-lg border border-stroke bg-white mt-10'>
                 <Table
                     scroll={{ x: 1300 }}
                     rowSelection={{
                         type: selectionType,
                         ...rowSelection,
+                        defaultSelectedRowKeys: selectedIds,
                     }}
                     columns={columns}
                     dataSource={tableData}
                 />
             </div>
+            {/* Edt GiftIdeas Table End */}
 
-            <div className='flex justify-end gap-10 mt-6'>
-            <Button className="h-12 text-blue-800">CANCEL</Button>
-            <Button className='h-10 bg-blue-800 text-white font-medium' onClick={updateCategoryHandler}>SAVE CHANGES</Button>
+
+            {/* Edt GiftIdeas Bottom Buttons Start */}
+            <div className='flex justify-end gap-10 mt-10'>
+                <Button className="h-12 text-blue-800">CANCEL</Button>
+                <Button className='h-10 bg-blue-800 text-white font-medium' onClick={updateCategoryHandler}>SAVE CHANGES</Button>
             </div>
+            {/* Edt GiftIdeas Bottom Buttons End */}
 
         </>
     );

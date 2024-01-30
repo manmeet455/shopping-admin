@@ -101,7 +101,7 @@ import { useNavigate } from "react-router-dom";
     const navigate = useNavigate();
 
     function handleEdit(){
-      navigate('/editDetails');
+      navigate(`/editDetails/${id}`);
     }
   
     const button = [<Button className="bg-blue-800 text-white" onClick={handleEdit}>Edit</Button>]
