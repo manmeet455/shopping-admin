@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
 // import { UploadOutlined } from '@ant-design/icons';
 
-import { useGetGiftIdeasByIdQuery, useGetGiftIdeasEditProductsByIdQuery, useUpdateGiftIdeasMutation } from "../../queries/giftIdea";
+import { useAddGiftIdeasMutation, useGetGiftIdeasByIdQuery, useGetGiftIdeasEditProductsByIdQuery, useUpdateGiftIdeasMutation } from "../../queries/giftIdea";
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
@@ -22,21 +22,20 @@ interface DataType {
 const editDetails = () => {
 
     const { id } = useParams();
+
     const { data, isLoading, error } = useGetGiftIdeasByIdQuery(id);
-    console.log(data, "bhandari");
 
     const selectedIds = data?.data?.products;
-    console.log(selectedIds, "Manmeet");
 
-    //handle Back Button function Start
+    //handle BackButton function Start
     const navigate = useNavigate();
 
     function handleBackbutton() {
         navigate("/gift-ideas")
     }
-    //handle Back Button function End
+    //handle BackButton function End
 
-    
+
     // Edit GiftIdeas TableContent Start 
     const columns: TableColumnsType<DataType> = [
         {
@@ -53,7 +52,7 @@ const editDetails = () => {
             dataIndex: 'brand',
         },
         {
-            title: 'Descrnameiption',
+            title: 'Description',
             dataIndex: 'description',
             ellipsis: true,
         },
@@ -73,7 +72,7 @@ const editDetails = () => {
     ];
     //  Edit GiftIdeas TableContent End
 
-    
+
     const { data: editProducts, isLoading: isLoadingEditProducts, error: errorEditProducts } = useGetGiftIdeasEditProductsByIdQuery(id);
 
     //useState for update api
@@ -86,13 +85,14 @@ const editDetails = () => {
 
     //Update api(Edit)
     const [updateCategory] = useUpdateGiftIdeasMutation();
+    const [addCategory] = useAddGiftIdeasMutation();
 
     const tableData: DataType[] = editProducts?.data?.products?.map((el: any, i: any) => ({
         key: el?._id,
         image: <img src={el?.images[0]?.url} className="w-8" />,
-        name: <div className="text-ellipsis">{el?.name}</div>,
-        brand: <div className="text-ellipsis">{el?.brand}</div>,
-        description: <div className="text-ellipsis">{el?.description}</div>,
+        name: el?.name,
+        brand: el?.brand,
+        description: el?.description,
         price: <>${el?.price}</>,
         productURL: el?.productUrl,
     }));
@@ -113,9 +113,13 @@ const editDetails = () => {
     const [selectionType, setSelectionType] = useState<'checkbox' | 'radio'>('checkbox');
 
     const updateCategoryHandler = () => {
-        const updatedCategoryData = { ...categoryData, id }
-        console.log(updatedCategoryData, "check")
-        updateCategory(updatedCategoryData).then((res: any) => alert(res?.data?.message));
+        if (id === 'new') {
+            addCategory(categoryData)
+        } else {
+            const updatedCategoryData = { ...categoryData, id }
+            console.log(updatedCategoryData, "check")
+            updateCategory(updatedCategoryData).then((res: any) => alert(res?.data?.message));
+        }
     }
 
     useEffect(() => {
@@ -132,15 +136,15 @@ const editDetails = () => {
     if (isLoading) {
         return <>Loading...</>
     }
-    if (error) {
-        return <>Something Went Wrong...</>
-    }
+    // if (error) {
+    //     return <>Something Went...</>
+    // }
 
     if (isLoadingEditProducts) {
         return <>Loading...</>
     }
     if (errorEditProducts) {
-        return <>Something Went Wrong...</>
+        return <>Something Went...</>
     }
 
     return (
@@ -152,7 +156,7 @@ const editDetails = () => {
                     <Button className='bg-blue-800 text-white w-11 h-11 rounded-full ' onClick={handleBackbutton}><FontAwesomeIcon icon={faArrowLeftLong} /></Button>
                 </div>
                 <div className='mb-4'>
-                    <h2 className='text-black font-semibold text-3xl'>Edit Gift Idea</h2>
+                    <h2 className='text-black font-semibold text-3xl'>{id === "new" ? "Add" : "Edit"} Gift Idea</h2>
                 </div>
             </div>
             {/* Edit GiftIdeas Header Section End */}
@@ -197,7 +201,7 @@ const editDetails = () => {
             {/* Edit GiftIdeas Form End */}
 
 
-            {/* Edt GiftIdeas Table Start */}
+            {/* Edit GiftIdeas Table Start */}
             <div className='rounded-lg border border-stroke bg-white mt-10'>
                 <Table
                     scroll={{ x: 1300 }}
@@ -210,15 +214,15 @@ const editDetails = () => {
                     dataSource={tableData}
                 />
             </div>
-            {/* Edt GiftIdeas Table End */}
+            {/* Edit GiftIdeas Table End */}
 
 
-            {/* Edt GiftIdeas Bottom Buttons Start */}
+            {/* Edit GiftIdeas Bottom Buttons Start */}
             <div className='flex justify-end gap-10 mt-10'>
-                <Button className="h-12 text-blue-800">CANCEL</Button>
-                <Button className='h-10 bg-blue-800 text-white font-medium' onClick={updateCategoryHandler}>SAVE CHANGES</Button>
+                <Button className="h-12 text-blue-800" onClick={handleBackbutton}>CANCEL</Button>
+                <Button className='h-10 bg-blue-800 text-white font-medium' onClick={updateCategoryHandler}>{id === "new" ? "ADD CATEGORY" : "SAVE CHANGES"}</Button>
             </div>
-            {/* Edt GiftIdeas Bottom Buttons End */}
+            {/* Edit GiftIdeas Bottom Buttons End */}
 
         </>
     );

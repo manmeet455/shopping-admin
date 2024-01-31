@@ -1,77 +1,110 @@
-import { Modal } from "antd";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faEye, faPen, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { Button, Modal } from "antd";
 
 import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import CardWithButtons from "../../customComponents/cardWithButtons";
 import { useDeleteGiftIdeasMutation, useGetGiftIdeasQuery } from "../../queries/giftIdea";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {faEye, faPen, faTrash} from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from "react";
+
 
 const GiftIdeas = () => {
 
-    const [deleteIdeas] = useDeleteGiftIdeasMutation();
+  //Call API's of GiftIdea
+  const { data: giftIdeasData, isLoading, error, refetch: refetchGiftIdeas } = useGetGiftIdeasQuery(null);
+  useEffect(() => {
+    refetchGiftIdeas();
+  }, []);
+  const [deleteIdeas] = useDeleteGiftIdeasMutation();
 
-    //useState for Modal
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [currData,setCurrData] = useState<any>();
-    
-    const navigate = useNavigate();
 
-    function viewHandler(id:any) {
-        navigate(`/details/${id}`);
-    }
+  //useState for Modal Start
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [currData, setCurrData] = useState<any>();
+  //useState for Modal End
 
-    function editHandler(id: any) {
-        navigate(`/editDetails/${id}`);
-    }
 
-    function deleteHandler(data: any){
-        deleteIdeas(data);
-        setCurrData(data)
-        setIsModalOpen(true);
-    }
-    const handleOk = (id: any) => {
-         deleteIdeas(id);
-        setIsModalOpen(false);
-      };
-     
-      const handleCancel = () => {
-        setIsModalOpen(false);
-      };
-    const { data: giftIdeasData, isLoading, error, refetch: refetchGiftIdeas } = useGetGiftIdeasQuery(null);
+  // Functions for Handle Category Icons Start
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        refetchGiftIdeas();
-    }, []);
+  function viewHandler(id: any) {
+    navigate(`/details/${id}`);
+  }
+  function editHandler(id: any) {
+    navigate(`/editDetails/${id}`);
+  }
+  function showModalHandler(data: any) {
+    setCurrData(data)
+    setIsModalOpen(true);
+  }
+  // Functions for Handle Category Icons End
 
-    return (
-        <div className="grid grid-cols-2 gap-4">
-            {giftIdeasData?.data?.categories && giftIdeasData?.data?.categories?.map((data: any) => {
-                return    <CardWithButtons 
-                data={data} 
-                isLoading={isLoading}
-                 error={error} 
-                 actions={[
-                    <FontAwesomeIcon icon={faEye} onClick={() => viewHandler(data._id)} />,
-                    <FontAwesomeIcon icon={faPen} onClick={() => editHandler(data._id)} />,
-                    <FontAwesomeIcon color="red" icon={faTrash} onClick={() => {deleteHandler(data);}} />,
 
-                  ]} />
-            })}
-            <Modal
-                title={"Confirm Delete"}
-                open={isModalOpen}
-                onOk={() => handleOk(currData?._id)}
-                onCancel={handleCancel}
-                cancelText='no'
-                okText='yes'
-              >
-                <p>Are you sure you want to delete <strong>{(currData?.name)}</strong> bundle?</p>
-              </Modal>
+  // Function for Handle Category Header Button
+  function addGiftIdeas()
+  {
+    navigate(`/editDetails/new`)
+  }
+
+
+  //Function for Handle Modal Buttons Start
+  const handleOk = (id: any) => {//Functions for Handle Modal Buttons Start
+    deleteIdeas(id).then(() => refetchGiftIdeas());
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+  };
+  //Functions for Handle Modal Buttons End
+
+
+  return (
+    <>
+
+      {/* GiftIdeas Header Start */}
+      <div className='flex items-center justify-between mb-5'>
+        <div>
+          <h2 className='text-black text-3xl font-semibold'>Gift Ideas</h2>
+          <p className='mt-0'>Total gift ideas: {giftIdeasData?.data?.categories.length} </p>
         </div>
+        <Button className='bg-blue-800 text-white h-10' onClick={addGiftIdeas}><FontAwesomeIcon icon={faPlus} className='mr-1' />ADD GIFT IDEA</Button>
+      </div>
+      {/* GiftIdeas Header End */}
 
-        
-    );
+
+      {/* GiftIdeas Categories Start */}
+      <div className="grid grid-cols-2 gap-4">
+        {giftIdeasData?.data?.categories && giftIdeasData?.data?.categories?.map((data: any) => {
+          return <CardWithButtons
+            data={data}
+            isLoading={isLoading}
+            error={error}
+            actions={[
+              <FontAwesomeIcon icon={faEye} onClick={() => viewHandler(data._id)} />,
+              <FontAwesomeIcon icon={faPen} onClick={() => editHandler(data._id)} />,
+              <FontAwesomeIcon color="red" icon={faTrash} onClick={() => { showModalHandler(data); }} />,
+            ]} />
+        })}
+        {/* GiftIdeas Categories End */}
+
+
+        {/* Modal For Delete Categories Start */}
+        <Modal
+          title={"Confirm Delete"}
+          open={isModalOpen}
+          onOk={() => handleOk(currData?._id)}
+          onCancel={handleCancel}
+          cancelText='no'
+          okText='yes'
+        >
+          <p>Are you sure you want to delete <strong>{(currData?.name)}</strong> bundle?</p>
+        </Modal>
+        {/* Modal For Delete Categories End */}
+
+      </div>
+    </>
+  );
 };
 
 export default GiftIdeas;

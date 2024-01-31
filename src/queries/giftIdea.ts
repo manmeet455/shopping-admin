@@ -19,7 +19,8 @@ export const giftIdeasApis = createApi({
         }),
 
         getGiftIdeasEditProductsById: build.query({
-            query: (id) => ({ url: `products?page=1&limit=10&affiliate=true&giftIdeaId=${id}` }),
+            // query: (id) => ({ url: `products?page=1&limit=10&affiliate=true&giftIdeaId=${id}` })
+            query: (id) => ({ url: `products?page=1&limit=10&affiliate=true${id === "new" ? "" : `&giftIdeaId=${id}`}`}),
         }),
 
         updateGiftIdeas: build.mutation({
@@ -32,6 +33,14 @@ export const giftIdeasApis = createApi({
 
         deleteGiftIdeas: build.mutation({
             query: (id) => ({ url: `category/${id}`, method: "delete" }),
+        }),
+
+        addGiftIdeas: build.mutation({
+            query: (data) => ({
+                url: 'category',
+                method: 'post',
+                body: data,
+            }),
         }),
 
 
@@ -54,4 +63,5 @@ export const {
     useGetGiftIdeasEditProductsByIdQuery,
     useUpdateGiftIdeasMutation,
     useDeleteGiftIdeasMutation,
+    useAddGiftIdeasMutation,
 } = giftIdeasApis;

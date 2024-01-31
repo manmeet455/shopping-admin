@@ -21,8 +21,8 @@ const CardWithButtons = (props: IProps) => {
   }
 
   return (
-    <div className="flex items-center bg-white  gap-4 cursor-pointer ">
-      <div className="w-20 h-20 ">
+    <div className="flex items-center bg-white  gap-4 cursor-pointer border border-stroke rounded-lg">
+      <div className="w-20 h-20 ml-3 ">
         <img src={data?.image} alt="image" />
       </div>
       <div className="mt-4 mb-4">
