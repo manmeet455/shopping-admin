@@ -7,10 +7,11 @@ interface IProps {
   isLoading: boolean,
   error: any,
   actions: any[],
+  showDetails?: boolean,
 }
 
 const CardWithButtons = (props: IProps) => {
-  const { error, data, isLoading, actions } = props;
+  const { error, data, isLoading, actions, showDetails = true } = props;
 
   if (isLoading) {
     return <>Loading</>
@@ -29,15 +30,15 @@ const CardWithButtons = (props: IProps) => {
         <h4 className="font-bold text-black ">{data?.name}</h4>
         <p><b className="mr-1">Description:</b> {data?.description}</p>
         <div>
-          <p>
+          {showDetails && (<p>
             <b className="mr-1">Items:</b>
             {data?.products?.length}
             {data?.price && <b className="mr-1">Price:</b>}
             {data?.price && <>${data?.price}</>}
-          </p>
+          </p>)}
         </div>
       </div>
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-3 gap-4 ml-auto mr-10">
         {props.actions?.map((Component) => Component)}
       </div>
     </div>

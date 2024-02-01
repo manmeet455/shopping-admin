@@ -6,6 +6,7 @@ import { bundlesApi } from '../queries/giftBundles';
 import { giftIdeasApis } from '../queries/giftIdea';
 import { orderApis } from '../queries/order';
 import { userApis } from '../queries/user';
+import { uploadApis } from '../queries/upload';
 
 
 
@@ -18,6 +19,7 @@ export const store = configureStore({
     [giftIdeasApis.reducerPath]: giftIdeasApis.reducer,
     [orderApis.reducerPath]: orderApis.reducer,
     [userApis.reducerPath]: userApis.reducer,
+    [uploadApis.reducerPath]: uploadApis.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -26,6 +28,7 @@ export const store = configureStore({
       giftIdeasApis.middleware,
       orderApis.middleware,
       userApis.middleware,
+      uploadApis.middleware,
     ),
 })
 setupListeners(store.dispatch);

@@ -7,6 +7,7 @@ import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
 import { useAddGiftIdeasMutation, useGetGiftIdeasByIdQuery, useGetGiftIdeasEditProductsByIdQuery, useUpdateGiftIdeasMutation } from "../../queries/giftIdea";
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { useAddImageMutation } from '../../queries/upload';
 
 
 interface DataType {
@@ -122,6 +123,31 @@ const editDetails = () => {
         }
     }
 
+    // upload image
+
+    const [addSingleImage] = useAddImageMutation();
+
+    function handleSingleImage(e: any)
+    {
+        console.log(e, "hello");
+        const fileType = e?.file?.type.split('/')[1];
+        console.log(fileType, "fileType");
+
+        const dataToSend = {fileType}
+        console.log(dataToSend, "hiii");
+
+        addSingleImage(dataToSend).then((res) => {
+            console.log(res,"ress");
+            const {fileUrl} = res?.data?.data;
+      console.log(fileUrl,"fileUrl")
+      setCategoryData({ ...categoryData, image: fileUrl })
+        })
+        
+        
+
+    }
+    
+
     useEffect(() => {
         if (id && data) {
             setCategoryData({
@@ -191,10 +217,11 @@ const editDetails = () => {
                         </Form.Item>
 
                         <label className='font-semibold text-xl text-black'>Image</label>
-                        <Upload name="logo" action="/upload.do" listType="picture">
+                        <Upload name="logo" onChange={handleSingleImage} action="/upload.do" listType="picture">
                             <Button className="ml-17">Choose file</Button>
+                            {<img src={data?.data?.image} className="h-45 w-50 mt-3 ml-27 border" />}
                         </Upload>
-                        {<img src={data?.data?.image} className="h-45 w-50 mt-3 ml-27 border" />}
+                        {/* {<img src={data?.data?.image} className="h-45 w-50 mt-3 ml-27 border" />} */}
                     </Form>
                 </div>
             </div>

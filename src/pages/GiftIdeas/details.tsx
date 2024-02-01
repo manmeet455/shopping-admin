@@ -84,16 +84,14 @@ const details = () => {
     id
   );
   const {
-    data: detailsProduct,
-    isLoading: loadingProduct,
-    error: errorProduct,
-  } = useGetGiftIdeasProductsByIdQuery(id);
+    data: detailsProduct, isLoading: loadingProduct, error: errorProduct} = useGetGiftIdeasProductsByIdQuery(id);
 
   // const {
   //   data: detailsProduct,
   //   isLoading: loadingProduct,
   //   error: errorProduct,
   // } = useGetGiftIdeasProductsByIdQuery("65a61ea9322cef379d3bc092");
+  
 
   const tableData: DataType[] = detailsProduct?.data?.products?.map((el: any, i: any) => ({
     key: i,
@@ -134,7 +132,8 @@ const details = () => {
           data={data?.data}
           isLoading={isLoading}
           error={error}
-          actions={button}
+          actions={button} 
+          showDetails = {false}
         />
       </div>
       {/* Details Card End */}

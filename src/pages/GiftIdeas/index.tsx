@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import CardWithButtons from "../../customComponents/cardWithButtons";
 import { useDeleteGiftIdeasMutation, useGetGiftIdeasQuery } from "../../queries/giftIdea";
+import { CustomModal } from '../../customComponents/modal';
 
 
 const GiftIdeas = () => {
@@ -90,17 +91,20 @@ const GiftIdeas = () => {
 
 
         {/* Modal For Delete Categories Start */}
-        <Modal
+        {/* <Modal
           title={"Confirm Delete"}
           open={isModalOpen}
           onOk={() => handleOk(currData?._id)}
           onCancel={handleCancel}
           cancelText='no'
           okText='yes'
+          cancelButtonProps={{className: '!bg-red'}}
         >
           <p>Are you sure you want to delete <strong>{(currData?.name)}</strong> bundle?</p>
-        </Modal>
+        </Modal> */}
         {/* Modal For Delete Categories End */}
+
+        <CustomModal title={'Confirm Delete'} open={isModalOpen} onOk={() => handleOk(currData?._id)} onCancel={handleCancel} cancelText={'no'} okText={'yes'} message={<p>Are you sure you want to delete <strong>{(currData?.name)}</strong> bundle?</p>} />
 
       </div>
     </>
