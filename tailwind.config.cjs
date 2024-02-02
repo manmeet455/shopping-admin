@@ -8,6 +8,24 @@ module.exports = {
     fontFamily: {
       satoshi: ['Satoshi', 'sans-serif'],
     },
+    screens: {
+      '2xsm': '375px',
+      xsm: '425px',
+      '3xl': '2000px',
+      ...defaultTheme.screens,
+    },
+    extend: {
+      fontSize: {
+        'title-xxl': ['44px', '55px'],
+        'title-xl': ['36px', '45px'],
+        'title-xl2': ['33px', '45px'],
+        'title-lg': ['28px', '35px'],
+        'title-md': ['24px', '30px'],
+        'title-md2': ['26px', '30px'],
+        'title-sm': ['20px', '26px'],
+        'title-xsm': ['18px', '24px'],
+      },
+
     colors: {
       current: 'currentColor',
       transparent: 'transparent',
@@ -48,23 +66,6 @@ module.exports = {
       danger: '#D34053',
       warning: '#FFA70B',
     },
-    screens: {
-      '2xsm': '375px',
-      xsm: '425px',
-      '3xl': '2000px',
-      ...defaultTheme.screens,
-    },
-    extend: {
-      fontSize: {
-        'title-xxl': ['44px', '55px'],
-        'title-xl': ['36px', '45px'],
-        'title-xl2': ['33px', '45px'],
-        'title-lg': ['28px', '35px'],
-        'title-md': ['24px', '30px'],
-        'title-md2': ['26px', '30px'],
-        'title-sm': ['20px', '26px'],
-        'title-xsm': ['18px', '24px'],
-      },
       spacing: {
         4.5: '1.125rem',
         5.5: '1.375rem',

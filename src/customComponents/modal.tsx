@@ -1,4 +1,4 @@
-import { Modal} from "antd";
+import { ButtonProps, Modal } from "antd";
 
 import { ReactNode } from "react";
 
@@ -11,20 +11,21 @@ interface CustomModalProps {
   cancelText: string,
   okText: string,
   message: ReactNode,
+  okButtonProps: ButtonProps,
 }
 
-export const CustomModal = ({title, open, onOk, onCancel, cancelText, okText, message}: CustomModalProps) => {
+export const CustomModal = ({ title, open, onOk, onCancel, cancelText, okText, message, okButtonProps }: CustomModalProps) => {
   return (
     <Modal
-    title={title}
-    open={open}
-    onOk={onOk}
-    onCancel={onCancel}
-    cancelText={cancelText}
-    okText={okText}
-    // cancelButtonProps={{className: '!bg-red'}}
-  >
-    <p>{message}</p>
-  </Modal>
+      title={title}
+      open={open}
+      onOk={onOk}
+      onCancel={onCancel}
+      cancelText={cancelText}
+      okText={okText}
+      okButtonProps={okButtonProps}
+    >
+      <p>{message}</p>
+    </Modal>
   )
 }

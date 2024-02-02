@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faPen, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { Button, Modal } from "antd";
+import { Button } from "antd";
 
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -42,18 +42,16 @@ const GiftIdeas = () => {
 
 
   // Function for Handle Category Header Button
-  function addGiftIdeas()
-  {
+  function addGiftIdeas() {
     navigate(`/editDetails/new`)
   }
 
 
   //Function for Handle Modal Buttons Start
-  const handleOk = (id: any) => {//Functions for Handle Modal Buttons Start
+  const handleOk = (id: any) => {
     deleteIdeas(id).then(() => refetchGiftIdeas());
     setIsModalOpen(false);
   };
-
   const handleCancel = () => {
     setIsModalOpen(false);
   };
@@ -75,7 +73,7 @@ const GiftIdeas = () => {
 
 
       {/* GiftIdeas Categories Start */}
-      <div className="grid grid-cols-2 gap-4">
+      <div className="grid grid-cols-2 gap-4 ">
         {giftIdeasData?.data?.categories && giftIdeasData?.data?.categories?.map((data: any) => {
           return <CardWithButtons
             data={data}
@@ -90,7 +88,6 @@ const GiftIdeas = () => {
         {/* GiftIdeas Categories End */}
 
 
-        {/* Modal For Delete Categories Start */}
         {/* <Modal
           title={"Confirm Delete"}
           open={isModalOpen}
@@ -102,9 +99,13 @@ const GiftIdeas = () => {
         >
           <p>Are you sure you want to delete <strong>{(currData?.name)}</strong> bundle?</p>
         </Modal> */}
-        {/* Modal For Delete Categories End */}
 
-        <CustomModal title={'Confirm Delete'} open={isModalOpen} onOk={() => handleOk(currData?._id)} onCancel={handleCancel} cancelText={'no'} okText={'yes'} message={<p>Are you sure you want to delete <strong>{(currData?.name)}</strong> bundle?</p>} />
+
+        {/* CustomModal For Delete Categories Start */}
+        <CustomModal title={'Confirm Delete'} open={isModalOpen} onOk={() => handleOk(currData?._id)} onCancel={handleCancel} cancelText={'no'} okText={'yes'}
+          okButtonProps={{ className: 'bg-red-700' }}
+          message={<p>Are you sure you want to delete <strong>{(currData?.name)}</strong> bundle?</p>} />
+        {/* CustomModal For Delete Categories End */}
 
       </div>
     </>

@@ -1,4 +1,4 @@
-import { Button, Form, Input, Upload, Table } from 'antd';
+import { Button, Form, Input, Upload, Table} from 'antd';
 import type { TableColumnsType } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
@@ -142,11 +142,7 @@ const editDetails = () => {
       console.log(fileUrl,"fileUrl")
       setCategoryData({ ...categoryData, image: fileUrl })
         })
-        
-        
-
     }
-    
 
     useEffect(() => {
         if (id && data) {

@@ -1,6 +1,6 @@
 import { Button, Table } from "antd";
-import { useParams, useNavigate } from "react-router-dom";
 import type { TableProps } from "antd";
+import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
 // import { SearchOutlined } from '@ant-design/icons';
@@ -20,14 +20,19 @@ interface DataType {
 
 const details = () => {
 
+  const navigate = useNavigate();
+
   //handle BackButton function Start
   function handleBackbutton() {
     navigate("/gift-ideas")
   }
   //handle BackButton function End
 
+
   const { id } = useParams();
 
+
+  // detailsTable Content Start
   const columns: TableProps<DataType>["columns"] = [
     {
       title: "Image",
@@ -78,21 +83,21 @@ const details = () => {
     //   ),
     // },
   ];
+  // detailsTable Content End
 
 
-  const { data, isLoading, error } = useGetGiftIdeasByIdQuery(
-    id
-  );
-  const {
-    data: detailsProduct, isLoading: loadingProduct, error: errorProduct} = useGetGiftIdeasProductsByIdQuery(id);
+  //Call API's of GiftIdea
+  const { data, isLoading, error } = useGetGiftIdeasByIdQuery(id);
+  const { data: detailsProduct, isLoading: loadingProduct, error: errorProduct } = useGetGiftIdeasProductsByIdQuery(id);
 
   // const {
   //   data: detailsProduct,
   //   isLoading: loadingProduct,
   //   error: errorProduct,
   // } = useGetGiftIdeasProductsByIdQuery("65a61ea9322cef379d3bc092");
-  
 
+
+  // DetailsTable Data Fetch Start
   const tableData: DataType[] = detailsProduct?.data?.products?.map((el: any, i: any) => ({
     key: i,
     image: <img src={el?.images[0]?.url} className="w-8" />,
@@ -102,8 +107,8 @@ const details = () => {
     price: <>${el?.price}</>,
     productUrl: el?.productUrl,
   }));
+   // DetailsTable Data Fetch End
 
-  const navigate = useNavigate();
 
   function handleEdit() {
     navigate(`/editDetails/${id}`);
@@ -132,8 +137,8 @@ const details = () => {
           data={data?.data}
           isLoading={isLoading}
           error={error}
-          actions={button} 
-          showDetails = {false}
+          actions={button}
+          showDetails={false}
         />
       </div>
       {/* Details Card End */}
