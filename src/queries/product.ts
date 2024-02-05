@@ -8,14 +8,15 @@ export const productApis = createApi({
         getProducts: build.query({
             query: () => ({ url: `products?page=1&limit=10&affiliate=true` }),
         }),
-        // getProductById: build.query({
-        //     query: (id) => ({ url: `orders?page=1&limit=10/${id}` }),
-        // }),s
+
+        getProductById: build.query({
+            query: (id) => ({ url: `products/${id}` }),
+        }),
 
     }),
 })
  
 export const {
     useGetProductsQuery,
-    // useGetProductByIdQuery,
+    useGetProductByIdQuery,
 } = productApis;

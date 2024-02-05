@@ -2,7 +2,7 @@ import { Button, Table } from "antd";
 import type { TableProps } from "antd";
 import { useParams, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faArrowLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeftLong, faPen } from '@fortawesome/free-solid-svg-icons';
 // import { SearchOutlined } from '@ant-design/icons';
 
 import CardWithButtons from "../../customComponents/cardWithButtons";
@@ -114,7 +114,7 @@ const details = () => {
     navigate(`/editDetails/${id}`);
   }
 
-  const button = [<Button className="bg-blue-800 text-white" onClick={handleEdit}>Edit</Button>]
+  const button = [<Button className="bg-blue-800 text-white h-9" onClick={handleEdit}><FontAwesomeIcon icon={faPen} className="mr-2" />EDIT</Button>]
 
   return (
     <>

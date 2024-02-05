@@ -20,7 +20,7 @@ export const giftIdeasApis = createApi({
 
         getGiftIdeasEditProductsById: build.query({
             // query: (id) => ({ url: `products?page=1&limit=10&affiliate=true&giftIdeaId=${id}` })
-            query: (id) => ({ url: `products?page=1&limit=10&affiliate=true${id === "new" ? "" : `&giftIdeaId=${id}`}`}),
+            query: (id) => ({ url: `products?page=1&limit=10&affiliate=true${id === "new" || "" ? "" : `&giftIdeaId=${id}`}`}),
         }),
 
         updateGiftIdeas: build.mutation({

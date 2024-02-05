@@ -6,6 +6,7 @@ const GiftIdeas = lazy(() => import('../pages/GiftIdeas'));
 const GiftBundles = lazy(() => import('../pages/GiftBundles'));
 const Products = lazy(() => import('../pages/Products/index'));
 const AffiliatedProducts = lazy(() => import('../pages/Products/AffiliatedProducts'));
+const ViewAffiliateProductDetails = lazy(() => import('../pages/Products/ViewAffiliateProductDetails'));
 
 const coreRoutes = [
   {
@@ -37,6 +38,11 @@ const coreRoutes = [
     path: '/affiliated-products',
     title: 'affiliated-products',
     component: AffiliatedProducts
+  },
+  {
+    path: '/view-affiliated-products/:id',
+    title: 'affiliated-products',
+    component: ViewAffiliateProductDetails
   },
 ];
 
