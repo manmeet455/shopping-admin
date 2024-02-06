@@ -32,6 +32,9 @@ const AffiliatedProducts = () => {
     function handleViewButton(id:any){
         navigate(`/view-affiliated-products/${id}`);
     }
+    function handleEditButton(id:any){
+        navigate(`/edit-affiliated-products/${id}`);
+    }
     // Handle Button Functions End
 
 
@@ -93,7 +96,7 @@ const AffiliatedProducts = () => {
         price: el?.price,
         description: el?.description,
         action: <div className="flex gap-3 cursor-pointer"><FontAwesomeIcon icon={faEye} size="xs" onClick={() => handleViewButton(el?._id)} />
-            <FontAwesomeIcon icon={faPen} size="xs" />
+            <FontAwesomeIcon icon={faPen} size="xs" onClick={() => handleEditButton(el?._id)}/>
             <FontAwesomeIcon icon={faTrash} size="xs" color="red" />
         </div>
     }));

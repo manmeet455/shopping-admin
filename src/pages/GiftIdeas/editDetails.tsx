@@ -129,12 +129,9 @@ const editDetails = () => {
 
     function handleSingleImage(e: any)
     {
-        console.log(e, "hello");
         const fileType = e?.file?.type.split('/')[1];
-        console.log(fileType, "fileType");
 
         const dataToSend = {fileType}
-        console.log(dataToSend, "hiii");
 
         addSingleImage(dataToSend).then((res) => {
             console.log(res,"ress");
@@ -189,7 +186,7 @@ const editDetails = () => {
                 <div className='mt-6 mb-4 ml-6'>
                     <Form
                         name="wrap"
-                        labelCol={{ flex: '110px' }}
+                        labelCol={{ flex: '140px' }}
                         labelAlign="left"
                         labelWrap
                         wrapperCol={{ flex: 1 }}
@@ -212,12 +209,17 @@ const editDetails = () => {
                             <Input className="border-0 rounded-none border-b-2 !shadow-none hover:border-black" onChange={(event) => setCategoryData({ ...categoryData, description: event.target.value })} />
                         </Form.Item>
 
-                        <label className='font-semibold text-xl text-black'>Image</label>
+                        {/* <label className='font-semibold text-xl text-black'>Image</label> */}
+                        <Form.Item
+                        label={<h3 className='font-semibold text-xl text-black'>Image</h3>}
+                        name="Image"
+                    >
                         <Upload name="logo" onChange={handleSingleImage} action="/upload.do" listType="picture">
-                            <Button className="ml-17">Choose file</Button>
-                            {<img src={data?.data?.image} className="h-45 w-50 mt-3 ml-27 border" />}
+                            <Button>Choose file</Button>
+                            {<img src={data?.data?.image} className="h-45 w-50 mt-3 border border-graydark" />}
                         </Upload>
                         {/* {<img src={data?.data?.image} className="h-45 w-50 mt-3 ml-27 border" />} */}
+                        </Form.Item>
                     </Form>
                 </div>
             </div>

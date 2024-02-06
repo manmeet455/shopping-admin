@@ -44,6 +44,11 @@ const coreRoutes = [
     title: 'affiliated-products',
     component: ViewAffiliateProductDetails
   },
+  {
+    path: '/edit-affiliated-products/:id',
+    title: 'affiliated-products',
+    component: ViewAffiliateProductDetails
+  },
 ];
 
 const routes = [...coreRoutes];
