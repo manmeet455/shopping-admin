@@ -41,7 +41,7 @@ const GiftIdeas = () => {
   // Functions for Handle Category Icons End
 
 
-  // Function for Handle Category Header Button
+  // Function for Handle AddGiftIdeas Header Button
   function addGiftIdeas() {
     navigate(`/editDetails/new`)
   }

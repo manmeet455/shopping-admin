@@ -6,17 +6,26 @@ export const productApis = createApi({
     baseQuery: baseQueryInstance,
     endpoints: (build) => ({
         getProducts: build.query({
-            query: () => ({ url: `products?page=1&limit=10&affiliate=true` }),
+            query: () => ({ url: `products?page=1&limit=50&affiliate=true` }),
         }),
 
         getProductById: build.query({
             query: (id) => ({ url: `products/${id}` }),
         }),
 
+        updateProductById: build.mutation({
+            query: ({ id, ...data }) => ({
+                url: `products/${id}`,
+                method: 'put',
+                body: data,
+            }),
+        }),
     }),
 })
  
 export const {
     useGetProductsQuery,
     useGetProductByIdQuery,
+    useUpdateProductByIdMutation,
+    
 } = productApis;
