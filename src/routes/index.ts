@@ -49,6 +49,18 @@ const coreRoutes = [
     title: 'affiliated-products',
     component: ViewAffiliateProductDetails
   },
+  {
+    path: '/suscel-products',
+    title: 'suscel-products',
+    component: AffiliatedProducts
+  },
+  {
+    path: '/view-suscel-products/:id',
+    title: 'view-suscel-products',
+    component: ViewAffiliateProductDetails
+  },
+
+
 ];
 
 const routes = [...coreRoutes];

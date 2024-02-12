@@ -8,11 +8,11 @@ interface IProps {
     isLoading: boolean,
     error: any,
     isView: boolean,
+    // setProductData: (val: any)=>void;
+    // handleSubmit: ()=>void;
 }
 const CardWithProductDetails = (props: IProps) => {
     const { data, isLoading, error, isView} = props;
-
-
 
 
     if (isLoading) {
@@ -55,7 +55,9 @@ const CardWithProductDetails = (props: IProps) => {
                         name="Product Url"
                         initialValue={data?.data?.productUrl}
                     >
-                        <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={!addProductsPage} required={addProductsPage} placeholder='Enter Product Url' />
+                        <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={!addProductsPage} required={addProductsPage} placeholder='Enter Product Url'
+                        // onChange={(event) => setProductData({  productUrl: event.target.value })}
+                        />
                     </Form.Item>
 
                     {!addProductsPage && <Form.Item

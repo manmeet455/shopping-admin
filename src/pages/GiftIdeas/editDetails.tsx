@@ -141,6 +141,7 @@ const editDetails = () => {
         })
     }
 
+    //update api 
     useEffect(() => {
         if (id && data) {
             setCategoryData({

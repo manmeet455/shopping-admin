@@ -13,6 +13,10 @@ const Products = () => {
     navigate('/affiliated-products');
   }
 
+  function openSuscelProducts(){
+    navigate('/suscel-products');
+  }
+
 
   return (
     <>
@@ -43,6 +47,7 @@ const Products = () => {
           <Card
             className='shadow shadow-black cursor-pointer'
             style={{ width: 340 }}
+            onClick={openSuscelProducts}
             cover={
               <img className='h-55'
                 alt="image"
