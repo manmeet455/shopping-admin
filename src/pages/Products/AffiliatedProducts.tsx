@@ -5,6 +5,7 @@ import { faEye, faPen, faTrash, faArrowLeftLong, faPlus } from '@fortawesome/fre
 
 import { useGetProductsQuery } from "../../queries/product";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 interface DataType {
     key: string;
@@ -25,7 +26,10 @@ const AffiliatedProducts = () => {
 
 
     //Call ProductApi's
-    const { data, isLoading, error } = useGetProductsQuery({ page: 1, limit: 50, isAffiliate });
+    const { data, isLoading, error, refetch } = useGetProductsQuery({ page: 1, limit: 50, isAffiliate });
+    useEffect(() => {
+        refetch();
+    }, []);
 
 
     // Handle Button Functions Start
@@ -38,7 +42,7 @@ const AffiliatedProducts = () => {
     }
     
     function handleEditButton(id: any) {
-        navigate(`/edit-affiliated-products/${id}`);
+        {isAffiliate ? navigate(`/edit-affiliated-products/${id}`) : navigate(`/edit-suscel-products/${id}`)};
     }
     // Handle Button Functions End
 

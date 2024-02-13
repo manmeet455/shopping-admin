@@ -5,51 +5,54 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 
 import CardWithProductDetails from "../../customComponents/CardWithProductDetails";
 import { useGetProductByIdQuery, useUpdateProductByIdMutation } from "../../queries/product";
-// import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 
 const ViewAffiliateProductDetails = () => {
 
   const { id } = useParams();
+  const navigate = useNavigate();
 
   //  Duplication of ProductDetails Page to Edit
   const location = useLocation();
+  const viewSuscelProductsPage = location?.pathname?.includes("suscel-products");
 
   const isView = location?.pathname?.includes("view-affiliated-products") || location?.pathname?.includes("view-suscel-products");
 
-
-  const navigate = useNavigate();
-
-  //Handle Functions Here
+  //Handle BackButton
   function handleBackButton() {
-    navigate("/affiliated-products");
+    { viewSuscelProductsPage ? navigate("/suscel-products") : navigate("/affiliated-products") };
   }
 
-  //Call Apis from product
-  const { data: viewProductsData, isLoading, error } = useGetProductByIdQuery(id);
-  // const [updateProduct] = useUpdateProductByIdMutation();
+  //Call Apis from product Start
+  const { data: viewProductsData, isLoading, error, refetch } = useGetProductByIdQuery(id);
+  useEffect(() => {
+    refetch();
+  }, []);
+
+  const [updateProduct] = useUpdateProductByIdMutation();
+  //Call Apis from product End
 
 
   //useState for UpdateProduct Api
+  const [productData, setProductData] = useState({
+    affiliate: true,
+    brand: viewProductsData?.data?.brand,
+    description: viewProductsData?.data?.description,
+    images: viewProductsData?.data?.images,
+    name: viewProductsData?.data?.name,
+    price: viewProductsData?.data?.price,
+    productUrl: viewProductsData?.data?.productUrl,
+    weight: viewProductsData?.data?.weight,
+  });
 
-  //   const [productData, setProductData] = useState({
-  //     affiliate: true,
-  //     brand: "",
-  //     description: "",
-  //     images: [],
-  //     name: "",
-  //     price: "",
-  //     productUrl: "",
-  //     weight: "",
-  // });
-
-  // const handleSubmit = () => {
-  //   updateProduct(productData);
-  // }
-
-  // const updateProductsData = {...productData, id}
-  // console.log(updateProductsData, "check");
-  // updateProduct(updateProductsData).then((res: any) => console.log(res));
+  //Response of UpdateProduct Api  
+  const updateChanges = () => {
+    const updateProductsData = { ...productData, id }
+    updateProduct(updateProductsData).then((res: any) => {
+      navigate('/affiliated-products')
+    });
+  }
 
   return (
     <>
@@ -70,8 +73,10 @@ const ViewAffiliateProductDetails = () => {
           isLoading={isLoading}
           error={error}
           isView={isView}
-        // setProductData={setProductData}
-        // handleSubmit = {handleSubmit}
+          setProductData={setProductData}
+          productData={productData}
+          handleCancelButton={() => { navigate("/affiliated-products"); }}
+          handleOkButton={updateChanges}
         />
       </div>
       {/* AffiliatedProducts Form End */}

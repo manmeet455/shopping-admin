@@ -34,31 +34,42 @@ const coreRoutes = [
     title: 'productsCard',
     component: Products
   },
+  
   {
     path: '/affiliated-products',
     title: 'affiliated-products',
     component: AffiliatedProducts
   },
   {
-    path: '/view-affiliated-products/:id',
-    title: 'affiliated-products',
-    component: ViewAffiliateProductDetails
-  },
-  {
-    path: '/edit-affiliated-products/:id',
-    title: 'affiliated-products',
-    component: ViewAffiliateProductDetails
-  },
-  {
     path: '/suscel-products',
     title: 'suscel-products',
     component: AffiliatedProducts
+  },
+
+  {
+    path: '/view-affiliated-products/:id',
+    title: 'affiliated-products',
+    component: ViewAffiliateProductDetails
   },
   {
     path: '/view-suscel-products/:id',
     title: 'view-suscel-products',
     component: ViewAffiliateProductDetails
   },
+
+  {
+    path: '/edit-affiliated-products/:id',
+    title: 'affiliated-products',
+    component: ViewAffiliateProductDetails
+  },
+  {
+    path: '/edit-suscel-products/:id',
+    title: 'affiliated-products',
+    component: ViewAffiliateProductDetails
+  },
+
+ 
+  
 
 
 ];
