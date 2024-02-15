@@ -12,10 +12,10 @@ interface IProps {
     handleOkButton: () => void,
     setProductData: any,
     productData: any,
+    handleMultipleImage: (e: any) => void,
 }
 const CardWithProductDetails = (props: IProps) => {
     const { data, isLoading, isView, setProductData, productData } = props;
-
 
     if (isLoading) {
         return <>Loading</>
@@ -27,8 +27,9 @@ const CardWithProductDetails = (props: IProps) => {
     const navigate = useNavigate();
 
     function handleEditButton() {
-        {editSuscelProductPage ? navigate(`/edit-suscel-products/${data.data._id}`) : navigate(`/edit-affiliated-products/${data.data._id}`)};
+        { ViewAffiliateProducts ? navigate(`/edit-affiliated-products/${data.data._id}`) : navigate(`/edit-suscel-products/${data.data._id}`) };
     }
+
     // function handleCancelButton() {
     //     navigate("/affiliated-products");
     // }
@@ -37,6 +38,7 @@ const CardWithProductDetails = (props: IProps) => {
     const addProductsPage = location?.pathname?.includes("edit-affiliated-products/new");
     const viewSuscelProductsPage = location?.pathname?.includes("view-suscel-products");
     const editSuscelProductPage = location?.pathname?.includes(`edit-suscel-products/${data.data._id}`);
+    const ViewAffiliateProducts = location?.pathname?.includes(`view-affiliated-products/${data.data._id}`)
 
     return (
         <>
@@ -117,7 +119,7 @@ const CardWithProductDetails = (props: IProps) => {
                             label={<h3 className='font-semibold text-xl text-black'>Image</h3>}
                             name="Image"
                         >
-                            {!isView && <Upload name="logo" action="/upload.do" listType="picture">
+                            {!isView && <Upload name="logo" action="/upload.do" listType="picture" onChange={props.handleMultipleImage}>
                                 <Button className='border border-black rounded-none'>Choose files</Button>
                             </Upload>}
                             <div className='grid grid-cols-3 gap-2 mt-3'>

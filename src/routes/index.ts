@@ -67,11 +67,6 @@ const coreRoutes = [
     title: 'affiliated-products',
     component: ViewAffiliateProductDetails
   },
-
- 
-  
-
-
 ];
 
 const routes = [...coreRoutes];

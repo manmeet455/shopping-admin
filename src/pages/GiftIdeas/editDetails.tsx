@@ -132,11 +132,12 @@ const editDetails = () => {
         const fileType = e?.file?.type.split('/')[1];
 
         const dataToSend = {fileType}
+        // {filesType: [fileType]}
 
         addSingleImage(dataToSend).then((res) => {
-            console.log(res,"ress");
+            // console.log(res,"ress");
             const {fileUrl} = res?.data?.data;
-      console.log(fileUrl,"fileUrl")
+    //   console.log(fileUrl,"fileUrl")
       setCategoryData({ ...categoryData, image: fileUrl })
         })
     }

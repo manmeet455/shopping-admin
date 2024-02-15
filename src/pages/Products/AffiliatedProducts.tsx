@@ -3,9 +3,10 @@ import type { TableProps } from "antd";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faPen, faTrash, faArrowLeftLong, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { useGetProductsQuery } from "../../queries/product";
+import { useDeleteProductMutation, useGetProductsQuery } from "../../queries/product";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { CustomModal } from "../../customComponents/modal";
 
 interface DataType {
     key: string;
@@ -30,6 +31,7 @@ const AffiliatedProducts = () => {
     useEffect(() => {
         refetch();
     }, []);
+    const [deleteProduct] = useDeleteProductMutation();
 
 
     // Handle Button Functions Start
@@ -38,11 +40,11 @@ const AffiliatedProducts = () => {
     }
 
     function handleViewButton(id: any) {
-        {isAffiliate ? navigate(`/view-affiliated-products/${id}`) : navigate(`/view-suscel-products/${id}`)};
+        { isAffiliate ? navigate(`/view-affiliated-products/${id}`) : navigate(`/view-suscel-products/${id}`) };
     }
-    
+
     function handleEditButton(id: any) {
-        {isAffiliate ? navigate(`/edit-affiliated-products/${id}`) : navigate(`/edit-suscel-products/${id}`)};
+        { isAffiliate ? navigate(`/edit-affiliated-products/${id}`) : navigate(`/edit-suscel-products/${id}`) };
     }
     // Handle Button Functions End
 
@@ -90,6 +92,26 @@ const AffiliatedProducts = () => {
     ];
     // Table Content End
 
+    //useState for Modal Start
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [currData, setCurrData] = useState<any>();
+    //useState for Modal End
+
+
+    //Functions for Handle Modal Start
+    function showModalHandler(el: any) {
+        setCurrData(el)
+        setIsModalOpen(true);
+    }
+    const handleOk = (id: any) => {
+        deleteProduct(id).then(() => refetch());
+        setIsModalOpen(false);
+    };
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+    //Functions for Handle Modal End
+
 
     // TableData Fetching Start
     const tableData: DataType[] = data?.data?.products?.map((el: any, i: any) => ({
@@ -104,7 +126,10 @@ const AffiliatedProducts = () => {
                 e.stopPropagation();
                 handleEditButton(el?._id)
             }} />
-            <FontAwesomeIcon icon={faTrash} size="xs" color="red" />
+            <FontAwesomeIcon icon={faTrash} size="xs" color="red" onClick={(e) => {
+                e.stopPropagation();
+                showModalHandler(el);
+            }} />
         </div>
     }));
     // TableData Fetching End
@@ -143,6 +168,18 @@ const AffiliatedProducts = () => {
                         }}
 
                         scroll={{ x: 1300 }} pagination={{ defaultPageSize: 10 }} columns={columns} dataSource={tableData} />
+                        <div onClick={(e) => { e.stopPropagation(); }}>
+                <CustomModal
+                    title={'Confirm Delete'}
+                    open={isModalOpen}
+                    onOk={() => handleOk(currData?._id)}
+                    onCancel={handleCancel}
+                    cancelText={'no'}
+                    okText={'yes'}
+                    okButtonProps={{ className: 'bg-red-700' }}
+                    message={<p>Are you sure you want to delete this product?</p>}
+                />
+            </div>
                 </div>
                 {/* Table End */}
             </div>

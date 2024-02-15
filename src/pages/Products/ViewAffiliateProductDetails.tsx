@@ -6,6 +6,7 @@ import { useNavigate, useParams, useLocation } from "react-router-dom";
 import CardWithProductDetails from "../../customComponents/CardWithProductDetails";
 import { useGetProductByIdQuery, useUpdateProductByIdMutation } from "../../queries/product";
 import { useEffect, useState } from 'react';
+import { useAddMultipleImagesMutation } from '../../queries/upload';
 
 
 const ViewAffiliateProductDetails = () => {
@@ -16,6 +17,7 @@ const ViewAffiliateProductDetails = () => {
   //  Duplication of ProductDetails Page to Edit
   const location = useLocation();
   const viewSuscelProductsPage = location?.pathname?.includes("suscel-products");
+  const editAffiliatedProducts = location?.pathname?.includes(`edit-affiliated-products/${id}`)
 
   const isView = location?.pathname?.includes("view-affiliated-products") || location?.pathname?.includes("view-suscel-products");
 
@@ -24,17 +26,24 @@ const ViewAffiliateProductDetails = () => {
     { viewSuscelProductsPage ? navigate("/suscel-products") : navigate("/affiliated-products") };
   }
 
+  //Handle CancelButton
+  function handleCancelButton(){
+    {editAffiliatedProducts ? navigate("/affiliated-products") : navigate("/suscel-products")};
+  }
+
   //Call Apis from product Start
   const { data: viewProductsData, isLoading, error, refetch } = useGetProductByIdQuery(id);
   useEffect(() => {
     refetch();
   }, []);
-
   const [updateProduct] = useUpdateProductByIdMutation();
-  //Call Apis from product End
+
+  // useEffect(() => {
+
+  // }, [viewProductsData])
 
 
-  //useState for UpdateProduct Api
+  //useState for UpdateChangesInProduct Api
   const [productData, setProductData] = useState({
     affiliate: true,
     brand: viewProductsData?.data?.brand,
@@ -46,13 +55,34 @@ const ViewAffiliateProductDetails = () => {
     weight: viewProductsData?.data?.weight,
   });
 
-  //Response of UpdateProduct Api  
+
+  //Response of UpdateChangesInProduct Api  
   const updateChanges = () => {
     const updateProductsData = { ...productData, id }
     updateProduct(updateProductsData).then((res: any) => {
-      navigate('/affiliated-products')
+      {editAffiliatedProducts ? navigate('/affiliated-products') : navigate('/suscel-products')}
     });
   }
+
+  //Upload MultipleImage Section Start
+  const [addMultipleImage] = useAddMultipleImagesMutation();
+
+  function handleMultipleImage(e: any){
+    // console.log(e, "hiiii");
+
+    const fileType = e?.file?.type.split('/')[1];
+
+    const dataToSend = {filesType: [fileType]}
+    // console.log(dataToSend, "hiii");
+    addMultipleImage(dataToSend).then((res: any) => {
+      // console.log(res, "resss");
+      const {fileUrl} = res?.data?.[0];
+      setProductData({...productData, images: fileUrl})
+    }) 
+  }
+  //Upload MultipleImage Section End
+
+
 
   return (
     <>
@@ -75,8 +105,9 @@ const ViewAffiliateProductDetails = () => {
           isView={isView}
           setProductData={setProductData}
           productData={productData}
-          handleCancelButton={() => { navigate("/affiliated-products"); }}
+          handleCancelButton={handleCancelButton}
           handleOkButton={updateChanges}
+          handleMultipleImage={handleMultipleImage}
         />
       </div>
       {/* AffiliatedProducts Form End */}
