@@ -1,6 +1,6 @@
 import { Button, Form, Input, Upload } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPen, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPen, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface IProps {
@@ -16,7 +16,7 @@ interface IProps {
 }
 const CardWithProductDetails = (props: IProps) => {
     const { data, isLoading, isView, setProductData, productData } = props;
-
+    console.log('hnjii', productData)
     if (isLoading) {
         return <>Loading</>
     }
@@ -27,7 +27,7 @@ const CardWithProductDetails = (props: IProps) => {
     const navigate = useNavigate();
 
     function handleEditButton() {
-        { ViewAffiliateProducts ? navigate(`/edit-affiliated-products/${data.data._id}`) : navigate(`/edit-suscel-products/${data.data._id}`) };
+        { ViewAffiliateProducts ? navigate(`/edit-affiliated-products/${data?.data?._id}`) : navigate(`/edit-suscel-products/${data?.data?._id}`) };
     }
 
     // function handleCancelButton() {
@@ -37,8 +37,9 @@ const CardWithProductDetails = (props: IProps) => {
     const location = useLocation();
     const addProductsPage = location?.pathname?.includes("edit-affiliated-products/new");
     const viewSuscelProductsPage = location?.pathname?.includes("view-suscel-products");
-    const editSuscelProductPage = location?.pathname?.includes(`edit-suscel-products/${data.data._id}`);
-    const ViewAffiliateProducts = location?.pathname?.includes(`view-affiliated-products/${data.data._id}`)
+    const editSuscelProductPage = location?.pathname?.includes(`edit-suscel-products/${data?.data?._id}`);
+    const ViewAffiliateProducts = location?.pathname?.includes(`view-affiliated-products/${data?.data?._id}`);
+    const editSuscelProductNewPage = location?.pathname?.includes(`edit-suscel-products/new`);
 
     return (
         <>
@@ -55,7 +56,7 @@ const CardWithProductDetails = (props: IProps) => {
                         colon={false}
                         style={{ maxWidth: 800 }}
                     >
-                        {!viewSuscelProductsPage && !editSuscelProductPage && <Form.Item
+                        {(!viewSuscelProductsPage && !editSuscelProductPage && !editSuscelProductNewPage) && <Form.Item
                             label={<h3 className='font-semibold text-xl text-black'>Product Url</h3>}
                             name="Product Url"
                             initialValue={data?.data?.productUrl}
@@ -70,7 +71,7 @@ const CardWithProductDetails = (props: IProps) => {
                             name="Name"
                             initialValue={data?.data?.name}
                         >
-                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView}
+                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView} placeholder='Enter Product Name'
                                 onChange={(event) => setProductData({ ...productData, name: event.target.value })}
                             />
                         </Form.Item>}
@@ -80,7 +81,7 @@ const CardWithProductDetails = (props: IProps) => {
                             name="Brand"
                             initialValue={data?.data?.brand}
                         >
-                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView}
+                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView} placeholder='Enter Product Brand'
                                 onChange={(event) => setProductData({ ...productData, brand: event.target.value })}
                             />
                         </Form.Item>}
@@ -90,7 +91,7 @@ const CardWithProductDetails = (props: IProps) => {
                             name="Description"
                             initialValue={data?.data?.description}
                         >
-                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView}
+                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView} placeholder='Enter Product Description'
                                 onChange={(event) => setProductData({ ...productData, description: event.target.value })}
                             />
                         </Form.Item>}
@@ -100,17 +101,17 @@ const CardWithProductDetails = (props: IProps) => {
                             name="Price"
                             initialValue={data?.data?.price}
                         >
-                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView}
+                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView} placeholder='Enter Product Price'
                                 onChange={(event) => setProductData({ ...productData, price: event.target.value })}
                             />
                         </Form.Item>}
 
-                        {(viewSuscelProductsPage || editSuscelProductPage) && <Form.Item
+                        {(viewSuscelProductsPage || editSuscelProductPage || editSuscelProductNewPage) && <Form.Item
                             label={<h3 className='font-semibold text-xl text-black'>Weight(in kg)</h3>}
                             name="Weight"
                             initialValue={data?.data?.weight}
                         >
-                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView}
+                            <Input className={`border-0 rounded-none !shadow-none hover:border-black ${!isView && "border-b-2"}`} readOnly={isView} placeholder='Enter Product Weight'
                                 onChange={(event) => setProductData({ ...productData, weight: event.target.value })}
                             />
                         </Form.Item>}
@@ -124,6 +125,8 @@ const CardWithProductDetails = (props: IProps) => {
                             </Upload>}
                             <div className='grid grid-cols-3 gap-2 mt-3'>
                                 {data?.data?.images?.map((image: any) => <img src={image.url} className='h-30 w-40 border p-1 mt-2' />)}
+                                {/* <FontAwesomeIcon icon={faXmark} color='red' /> */}
+
                             </div>
                         </Form.Item>}
                     </Form>
@@ -138,7 +141,7 @@ const CardWithProductDetails = (props: IProps) => {
                 {/* EditProducts Bottom Buttons Start */}
                 {!isView && !addProductsPage && <div className='flex justify-end gap-10'>
                     <Button className="h-8 text-blue-800 border-0" onClick={props.handleCancelButton}>CANCEL</Button>
-                    <Button className='h-11 bg-blue-800 text-white font-medium' onClick={props.handleOkButton}>SAVE CHANGES</Button>
+                    <Button className='h-11 bg-blue-800 text-white font-medium' onClick={props.handleOkButton}>{!editSuscelProductNewPage ? 'SAVE CHANGES' : 'ADD PRODUCT'}</Button>
                 </div>}
                 {/* EditProducts Bottom Buttons End */}
             </div>

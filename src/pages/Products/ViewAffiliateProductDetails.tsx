@@ -18,7 +18,6 @@ const ViewAffiliateProductDetails = () => {
   const location = useLocation();
   const viewSuscelProductsPage = location?.pathname?.includes("suscel-products");
   const editAffiliatedProducts = location?.pathname?.includes(`edit-affiliated-products/${id}`)
-
   const isView = location?.pathname?.includes("view-affiliated-products") || location?.pathname?.includes("view-suscel-products");
 
   //Handle BackButton
@@ -27,25 +26,33 @@ const ViewAffiliateProductDetails = () => {
   }
 
   //Handle CancelButton
-  function handleCancelButton(){
-    {editAffiliatedProducts ? navigate("/affiliated-products") : navigate("/suscel-products")};
+  function handleCancelButton() {
+    { editAffiliatedProducts ? navigate("/affiliated-products") : navigate("/suscel-products") };
   }
 
   //Call Apis from product Start
-  const { data: viewProductsData, isLoading, error, refetch } = useGetProductByIdQuery(id);
+  const { data: viewProductsData, isLoading, error, refetch, isFetching } = useGetProductByIdQuery(id);
   useEffect(() => {
     refetch();
   }, []);
   const [updateProduct] = useUpdateProductByIdMutation();
 
-  // useEffect(() => {
-
-  // }, [viewProductsData])
+console.log('iiiiiiii', isLoading, isFetching)
+  useEffect(() => {
+    setProductData({
+      brand: viewProductsData?.data?.brand,
+      description: viewProductsData?.data?.description,
+      images: viewProductsData?.data?.images,
+      name: viewProductsData?.data?.name,
+      price: viewProductsData?.data?.price,
+      productUrl: viewProductsData?.data?.productUrl,
+      weight: viewProductsData?.data?.weight,
+    })
+  }, [viewProductsData?.data, isFetching])
 
 
   //useState for UpdateChangesInProduct Api
   const [productData, setProductData] = useState({
-    affiliate: true,
     brand: viewProductsData?.data?.brand,
     description: viewProductsData?.data?.description,
     images: viewProductsData?.data?.images,
@@ -55,30 +62,35 @@ const ViewAffiliateProductDetails = () => {
     weight: viewProductsData?.data?.weight,
   });
 
+  useEffect(() => {
+    setProductData((prev) => ({ ...prev, affiliate: editAffiliatedProducts }))
+  }, [editAffiliatedProducts])
 
   //Response of UpdateChangesInProduct Api  
+
   const updateChanges = () => {
     const updateProductsData = { ...productData, id }
     updateProduct(updateProductsData).then((res: any) => {
-      {editAffiliatedProducts ? navigate('/affiliated-products') : navigate('/suscel-products')}
+      { editAffiliatedProducts ? navigate('/affiliated-products') : navigate('/suscel-products') }
     });
   }
+
 
   //Upload MultipleImage Section Start
   const [addMultipleImage] = useAddMultipleImagesMutation();
 
-  function handleMultipleImage(e: any){
+  function handleMultipleImage(e: any) {
     // console.log(e, "hiiii");
 
     const fileType = e?.file?.type.split('/')[1];
 
-    const dataToSend = {filesType: [fileType]}
+    const dataToSend = { filesType: [fileType] }
     // console.log(dataToSend, "hiii");
     addMultipleImage(dataToSend).then((res: any) => {
       // console.log(res, "resss");
-      const {fileUrl} = res?.data?.[0];
-      setProductData({...productData, images: fileUrl})
-    }) 
+      const { fileUrl } = res?.data?.[0];
+      setProductData({ ...productData, images: fileUrl })
+    })
   }
   //Upload MultipleImage Section End
 
@@ -91,7 +103,7 @@ const ViewAffiliateProductDetails = () => {
       <div className="mb-4">
         <Button className='bg-blue-800 text-white w-11 h-11 rounded-full mb-5' onClick={handleBackButton}><FontAwesomeIcon icon={faArrowLeftLong} /></Button>
         {id !== "new" && <h2 className='text-black text text-3xl font-semibold'>{isView ? 'Product Details' : 'Edit Product'}</h2>}
-        {id === "new" && <h2 className='text-black text text-3xl font-semibold'>Add Products</h2>}
+        {id === "new" && <h2 className='text-black text text-3xl font-semibold'>Add Product</h2>}
       </div>
       {/* Header Section End */}
 

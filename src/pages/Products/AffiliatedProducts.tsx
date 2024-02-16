@@ -1,9 +1,9 @@
-import { Button, Table } from "antd";
+import { Button, Pagination, Table } from "antd";
 import type { TableProps } from "antd";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faPen, faTrash, faArrowLeftLong, faPlus } from '@fortawesome/free-solid-svg-icons';
 
-import { useDeleteProductMutation, useGetProductsQuery } from "../../queries/product";
+import { useDeleteProductMutation, useGetProductsMutation } from "../../queries/product";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CustomModal } from "../../customComponents/modal";
@@ -27,10 +27,32 @@ const AffiliatedProducts = () => {
 
 
     //Call ProductApi's
-    const { data, isLoading, error, refetch } = useGetProductsQuery({ page: 1, limit: 50, isAffiliate });
+    const [getProduct, { data, isLoading, error }] = useGetProductsMutation();
+
+    // pagination code started here
+    const [currentPage, setCurrentPage] = useState(1);
+
+    const PAGE_SIZE = 10;
     useEffect(() => {
-        refetch();
-    }, []);
+        getProduct({ page: currentPage, limit: PAGE_SIZE, isAffiliate });
+        navigate(`${isAffiliate ? '/affiliated-products?p=' : '/suscel-products?p='}${currentPage}`);
+    }, [currentPage]);
+
+    const handlePageChange = (Pagination: any) => {
+        console.log("paginationn", Pagination);
+        setCurrentPage(Pagination);
+    };
+
+    // paginaton code end
+
+
+    //   const { data, isLoading, error, refetch} = useGetProductsQuery({ page: 1, limit: 50, isAffiliate });
+    // useEffect(() => {
+    //     refetch();
+    //   }, []);
+
+
+    // Delete Product
     const [deleteProduct] = useDeleteProductMutation();
 
 
@@ -51,7 +73,7 @@ const AffiliatedProducts = () => {
 
     //Handle AddProduct Button Start
     function handleAddProductButton() {
-        navigate(`/edit-affiliated-products/new`);
+        { isAffiliate ? navigate(`/edit-affiliated-products/new`) : navigate(`/edit-suscel-products/new`) };
     }
 
 
@@ -104,7 +126,8 @@ const AffiliatedProducts = () => {
         setIsModalOpen(true);
     }
     const handleOk = (id: any) => {
-        deleteProduct(id).then(() => refetch());
+        deleteProduct(id);
+        // .then(() => refetch())
         setIsModalOpen(false);
     };
     const handleCancel = () => {
@@ -160,26 +183,36 @@ const AffiliatedProducts = () => {
 
                 {/* Table Start */}
                 <div className="border border-stroke rounded-lg cursor-pointer">
-                    <Table
-                        onRow={(record, i: any) => {
-                            return {
-                                onClick: () => handleViewButton(data?.data?.products?.[i]?._id)
-                            }
-                        }}
+                    <div>
+                        <Table
+                            onRow={(record, i: any) => {
+                                return {
+                                    onClick: () => handleViewButton(data?.data?.products?.[i]?._id)
+                                }
+                            }}
 
-                        scroll={{ x: 1300 }} pagination={{ defaultPageSize: 10 }} columns={columns} dataSource={tableData} />
-                        <div onClick={(e) => { e.stopPropagation(); }}>
-                <CustomModal
-                    title={'Confirm Delete'}
-                    open={isModalOpen}
-                    onOk={() => handleOk(currData?._id)}
-                    onCancel={handleCancel}
-                    cancelText={'no'}
-                    okText={'yes'}
-                    okButtonProps={{ className: 'bg-red-700' }}
-                    message={<p>Are you sure you want to delete this product?</p>}
-                />
-            </div>
+                            scroll={{ x: 1300 }} pagination={false} columns={columns} dataSource={tableData} />
+                    </div>
+                    <div className="flex justify-end mr-15 mb-3 mt-2">
+                        <Pagination
+                            current={currentPage}
+                            total={data?.data?.totalCount}
+                            pageSize={PAGE_SIZE}
+                            onChange={handlePageChange}
+                        />
+                    </div>
+                    <div onClick={(e) => { e.stopPropagation(); }}>
+                        <CustomModal
+                            title={'Confirm Delete'}
+                            open={isModalOpen}
+                            onOk={() => handleOk(currData?._id)}
+                            onCancel={handleCancel}
+                            cancelText={'no'}
+                            okText={'yes'}
+                            okButtonProps={{ className: 'bg-red-700' }}
+                            message={<p>Are you sure you want to delete this product?</p>}
+                        />
+                    </div>
                 </div>
                 {/* Table End */}
             </div>

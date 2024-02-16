@@ -5,8 +5,12 @@ export const productApis = createApi({
     reducerPath: 'product',
     baseQuery: baseQueryInstance,
     endpoints: (build) => ({
-        getProducts: build.query({
-            query: ({ page = 1, limit = 50, isAffiliate = 'true' }) => ({ url: `products?page=${page}&limit=${limit}&affiliate=${isAffiliate}` }),
+        // getProducts: build.query({
+        //     query: ({ page = 1, limit = 50, isAffiliate = 'true' }) => ({ url: `products?page=${page}&limit=${limit}&affiliate=${isAffiliate}` }),
+        // }),
+
+        getProducts: build.mutation({
+            query: ({ page, limit, isAffiliate }) => ({ url: `products?${page ? `&page=${page}` : ""}${limit ? `&limit=${limit}` : ""}&affiliate=${isAffiliate}` }),
         }),
 
         getProductById: build.query({
@@ -29,7 +33,8 @@ export const productApis = createApi({
 })
 
 export const {
-    useGetProductsQuery,
+    // useGetProductsQuery,
+    useGetProductsMutation,
     useGetProductByIdQuery,
     useUpdateProductByIdMutation,
     useDeleteProductMutation,
