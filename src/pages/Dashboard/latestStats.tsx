@@ -1,17 +1,21 @@
 import { Lists } from '../../customComponents/lists.tsx';
 import { useGetGiftBundlesQuery } from '../../queries/giftBundles.ts';
 import { useGetOrdersQuery } from '../../queries/order.ts';
-import { useGetUsersQuery } from '../../queries/user.ts';
+import { useGetUsersMutation } from '../../queries/user.ts';
 import { useGetGiftIdeasQuery } from '../../queries/giftIdea.ts';
 import { useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export const LatestStats = () => {
 
     const { data: giftBundlesData, isLoading: loadingBundle, error: errorBundle } = useGetGiftBundlesQuery(null);
     const { data: ordersData, isLoading: loadingOrder, error: errorOrder } = useGetOrdersQuery(null);
-    const { data: usersData, isLoading: loadingUser, error: errorUser } = useGetUsersQuery(null);
+    const [getUser,{ data: usersData, isLoading: loadingUser, error: errorUser }] = useGetUsersMutation();
     const { data: giftIdeasData, isLoading: lodingIdeas, error: errorIdeas } = useGetGiftIdeasQuery(null);
 
+useEffect(() => {
+    getUser("");
+},[])
 
     // Handler Function
 

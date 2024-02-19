@@ -7,6 +7,7 @@ const GiftBundles = lazy(() => import('../pages/GiftBundles'));
 const Products = lazy(() => import('../pages/Products/index'));
 const AffiliatedProducts = lazy(() => import('../pages/Products/AffiliatedProducts'));
 const ViewAffiliateProductDetails = lazy(() => import('../pages/Products/ViewAffiliateProductDetails'));
+const Users = lazy(() => import('../pages/Users/index'));
 
 const coreRoutes = [
   {
@@ -66,6 +67,12 @@ const coreRoutes = [
     path: '/edit-suscel-products/:id',
     title: 'affiliated-products',
     component: ViewAffiliateProductDetails
+  },
+
+  {
+    path: '/users',
+    title: 'users',
+    component: Users
   },
 ];
 

@@ -5,9 +5,14 @@ export const userApis = createApi({
     reducerPath: 'users',
     baseQuery: baseQueryInstance,
     endpoints: (build) => ({
-        getUsers: build.query({
-            query: () => ({ url: `users?page=1&limit=10` }),
+        getUsers: build.mutation({
+            // query: () => ({ url: `users?page=1&limit=10` }),
+            query: ({ name, email }) => ({
+                url: `users?${name ? `&name=${name}` : ""}${email ? `&email=${email}` : ""
+                    }`
+            }),
         }),
+
         getUserById: build.query({
             query: (id) => ({ url: `users?page=1&limit=10/${id}` }),
         }),
@@ -24,6 +29,6 @@ export const userApis = createApi({
 })
 
 export const {
-    useGetUsersQuery,
+    useGetUsersMutation,
     useGetUserByIdQuery,
 } = userApis;

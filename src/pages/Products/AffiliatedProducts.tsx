@@ -39,12 +39,11 @@ const AffiliatedProducts = () => {
     }, [currentPage]);
 
     const handlePageChange = (Pagination: any) => {
-        console.log("paginationn", Pagination);
+        // console.log("paginationn", Pagination);
         setCurrentPage(Pagination);
     };
 
     // paginaton code end
-
 
     //   const { data, isLoading, error, refetch} = useGetProductsQuery({ page: 1, limit: 50, isAffiliate });
     // useEffect(() => {

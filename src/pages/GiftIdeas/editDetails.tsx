@@ -118,7 +118,7 @@ const editDetails = () => {
             addCategory(categoryData)
         } else {
             const updatedCategoryData = { ...categoryData, id }
-            console.log(updatedCategoryData, "check")
+            // console.log(updatedCategoryData, "check")
             updateCategory(updatedCategoryData).then((res: any) => alert(res?.data?.message));
         }
     }

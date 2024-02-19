@@ -37,7 +37,7 @@ const ViewAffiliateProductDetails = () => {
   }, []);
   const [updateProduct] = useUpdateProductByIdMutation();
 
-console.log('iiiiiiii', isLoading, isFetching)
+// console.log('iiiiiiii', isLoading, isFetching)
   useEffect(() => {
     setProductData({
       brand: viewProductsData?.data?.brand,
